@@ -65,14 +65,17 @@ export default function Hero() {
       const runAnimations = () => {
         const tl = gsap.timeline({ delay: 0.2 });
 
-        // Image clip-path reveal
+        // Image reveal — GPU-composited scale + opacity
+        gsap.set(bg, { willChange: "transform, opacity" });
         tl.fromTo(
           bg,
-          { clipPath: "inset(50% 25% 50% 25%)" },
+          { scale: 1.3, opacity: 0 },
           {
-            clipPath: "inset(0% 0% 0% 0%)",
+            scale: 1.1,
+            opacity: 1,
             duration: 1.4,
             ease: "power4.inOut",
+            clearProps: "willChange",
           }
         );
 
@@ -201,7 +204,7 @@ export default function Hero() {
       className="relative h-screen w-full overflow-hidden"
       id="home"
     >
-      <div ref={overlayRef} className="relative h-full w-full">
+      <div ref={overlayRef} className="relative h-full w-full" style={{ willChange: "transform, opacity" }}>
         {/* Background — WebGL distortion or static fallback */}
         <div ref={bgRef} className="absolute inset-0 scale-110">
           {supportsWebGL ? (

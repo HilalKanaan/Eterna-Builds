@@ -30,19 +30,19 @@ export default function CustomCursor() {
     let currentSize = DEFAULT_SIZE;
 
     const xTo = gsap.quickTo(cursor, "x", {
-      duration: 0.15,
-      ease: "power2.out",
+      duration: 0.45,
+      ease: "power3",
     });
     const yTo = gsap.quickTo(cursor, "y", {
-      duration: 0.15,
-      ease: "power2.out",
+      duration: 0.45,
+      ease: "power3",
     });
     const dotXTo = gsap.quickTo(dot, "x", {
-      duration: 0.05,
+      duration: 0.01,
       ease: "none",
     });
     const dotYTo = gsap.quickTo(dot, "y", {
-      duration: 0.05,
+      duration: 0.01,
       ease: "none",
     });
 
@@ -221,6 +221,7 @@ export default function CustomCursor() {
           borderRadius: "50%",
           border: "2px solid #f5f0e8",
           mixBlendMode: "difference",
+          willChange: "transform",
         }}
       >
         {/* Context label */}
@@ -245,6 +246,7 @@ export default function CustomCursor() {
           borderRadius: "50%",
           backgroundColor: "#f5f0e8",
           mixBlendMode: "difference",
+          willChange: "transform",
         }}
       />
     </>

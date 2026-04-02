@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { splitTextToChars } from "@/lib/splitText";
@@ -10,14 +10,24 @@ export default function About() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const descRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
 
-  // Hover preview state
+  // Only use state for visibility and image src (low-frequency updates)
   const [hoverPreview, setHoverPreview] = useState<{
     visible: boolean;
     image: string;
-    x: number;
-    y: number;
-  }>({ visible: false, image: "", x: 0, y: 0 });
+  }>({ visible: false, image: "" });
+
+  // Use refs + quickTo for high-frequency position updates (no re-renders)
+  const previewXTo = useRef<ReturnType<typeof gsap.quickTo> | null>(null);
+  const previewYTo = useRef<ReturnType<typeof gsap.quickTo> | null>(null);
+
+  useEffect(() => {
+    const el = previewRef.current;
+    if (!el) return;
+    previewXTo.current = gsap.quickTo(el, "x", { duration: 0.3, ease: "power2.out" });
+    previewYTo.current = gsap.quickTo(el, "y", { duration: 0.3, ease: "power2.out" });
+  }, []);
 
   useGSAP(
     () => {
@@ -93,16 +103,19 @@ export default function About() {
     show: boolean
   ) => {
     if (show) {
-      setHoverPreview({ visible: true, image, x: e.clientX, y: e.clientY });
+      // Set initial position immediately
+      previewXTo.current?.(e.clientX + 20);
+      previewYTo.current?.(e.clientY - 100);
+      setHoverPreview({ visible: true, image });
     } else {
       setHoverPreview((prev) => ({ ...prev, visible: false }));
     }
   };
 
   const handleKeywordMouseMove = (e: React.MouseEvent) => {
-    if (hoverPreview.visible) {
-      setHoverPreview((prev) => ({ ...prev, x: e.clientX, y: e.clientY }));
-    }
+    // Use quickTo refs — no React re-render
+    previewXTo.current?.(e.clientX + 20);
+    previewYTo.current?.(e.clientY - 100);
   };
 
   const headingText =
@@ -219,16 +232,17 @@ export default function About() {
         </div>
       </div>
 
-      {/* Hover Preview Image */}
-      {hoverPreview.visible && (
-        <div
-          className="fixed pointer-events-none z-50 transition-opacity duration-300"
-          style={{
-            left: hoverPreview.x + 20,
-            top: hoverPreview.y - 100,
-            opacity: hoverPreview.visible ? 1 : 0,
-          }}
-        >
+      {/* Hover Preview Image — positioned via GSAP quickTo (no re-renders) */}
+      <div
+        ref={previewRef}
+        className="fixed top-0 left-0 pointer-events-none z-50"
+        style={{
+          opacity: hoverPreview.visible ? 1 : 0,
+          transition: "opacity 0.3s",
+          willChange: "transform",
+        }}
+      >
+        {hoverPreview.image && (
           <div className="w-64 h-44 overflow-hidden rounded-lg shadow-2xl">
             <Image
               src={hoverPreview.image}
@@ -238,8 +252,8 @@ export default function About() {
               className="object-cover w-full h-full"
             />
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   );
 }

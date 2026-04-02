@@ -83,7 +83,7 @@ export default function Navbar() {
       <nav
         ref={navRef}
         className="fixed top-0 left-0 right-0 z-50 transition-colors"
-        style={{ backgroundColor: "rgba(26, 26, 26, 0)" }}
+        style={{ backgroundColor: "rgba(26, 26, 26, 0)", willChange: "backdrop-filter, background-color" }}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-12 py-5">
           {/* Logo */}

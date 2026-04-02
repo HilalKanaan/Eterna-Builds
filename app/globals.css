@@ -75,20 +75,21 @@ h6 {
 /* Film Grain Overlay */
 .film-grain {
   position: fixed;
-  inset: 0;
+  inset: -100px;
   z-index: 9998;
   pointer-events: none;
   background-repeat: repeat;
   opacity: 0.06;
   mix-blend-mode: overlay;
+  will-change: transform;
   animation: grain 0.8s steps(6) infinite;
 }
 
 @keyframes grain {
-  0%, 100% { background-position: 0 0; }
-  16% { background-position: -60px -40px; }
-  33% { background-position: 40px -60px; }
-  50% { background-position: -40px 50px; }
-  66% { background-position: 60px 20px; }
-  83% { background-position: -30px -50px; }
+  0%, 100% { transform: translate(0, 0); }
+  16% { transform: translate(-60px, -40px); }
+  33% { transform: translate(40px, -60px); }
+  50% { transform: translate(-40px, 50px); }
+  66% { transform: translate(60px, 20px); }
+  83% { transform: translate(-30px, -50px); }
 }

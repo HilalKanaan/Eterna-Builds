@@ -19,7 +19,6 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     };
 
     gsap.ticker.add(rafCallback);
-    gsap.ticker.lagSmoothing(0);
 
     return () => {
       gsap.ticker.remove(rafCallback);

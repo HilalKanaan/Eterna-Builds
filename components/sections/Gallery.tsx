@@ -8,35 +8,19 @@ import { clamp } from "@/lib/utils";
 import { splitTextToChars } from "@/lib/splitText";
 import TiltCard from "@/components/ui/TiltCard";
 
-// Clip-path reveal patterns — each gallery item gets a unique one
-const REVEAL_PATTERNS = [
-  {
-    from: "polygon(0 0, 0 0, 0 100%, 0 100%)",
-    to: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-  },
-  {
-    from: "circle(0% at 50% 50%)",
-    to: "circle(75% at 50% 50%)",
-  },
-  {
-    from: "inset(50% 50% 50% 50%)",
-    to: "inset(0% 0% 0% 0%)",
-  },
-  {
-    from: "polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)",
-    to: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
-  },
-  {
-    from: "inset(0 50% 0 50%)",
-    to: "inset(0 0% 0 0%)",
-  },
+// Reveal animation variations — GPU-composited (opacity + transform only)
+const REVEAL_VARIANTS = [
+  { fromX: "-30%", fromScale: 0.92 },
+  { fromX: "0%",   fromScale: 0.85 },
+  { fromX: "30%",  fromScale: 0.92 },
+  { fromX: "0%",   fromScale: 0.88 },
+  { fromX: "-20%", fromScale: 0.9  },
 ];
 
 export default function Gallery() {
   const sectionRef = useRef<HTMLElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
-  const bgTextRef = useRef<HTMLParagraphElement>(null);
 
   useGSAP(
     () => {
@@ -72,6 +56,9 @@ export default function Gallery() {
         const totalWidth = slider.scrollWidth;
         const viewportWidth = window.innerWidth;
 
+        // Promote slider to its own GPU layer for smooth horizontal scroll
+        gsap.set(slider, { willChange: "transform" });
+
         const horizontalTween = gsap.to(slider, {
           x: -(totalWidth - viewportWidth),
           ease: "none",
@@ -80,7 +67,7 @@ export default function Gallery() {
             start: "top top",
             end: () => `+=${totalWidth - viewportWidth}`,
             pin: true,
-            scrub: 1,
+            scrub: 0.5,
             invalidateOnRefresh: true,
             anticipatePin: 1,
             onUpdate: (self) => {
@@ -94,62 +81,33 @@ export default function Gallery() {
           },
         });
 
-        // Skew effect on images while scrolling
+        // Lightweight skew effect — only applied via the main tween's velocity
         const images = slider.querySelectorAll(".gallery-image");
         const skewSetter = gsap.quickSetter(images, "skewX", "deg");
-        const clampSkew = (v: number) => clamp(v, -5, 5);
+        let lastVelocity = 0;
 
-        // Scroll-velocity background text effect
-        const bgText = bgTextRef.current;
-        let bgSkewSetter: ReturnType<typeof gsap.quickSetter> | null = null;
-        if (bgText) {
-          bgSkewSetter = gsap.quickSetter(bgText, "skewX", "deg");
-        }
-
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top top",
-          end: () => `+=${totalWidth - viewportWidth}`,
-          onUpdate: (self) => {
-            const velocity = self.getVelocity();
-            const skew = clampSkew(velocity / -300);
-            skewSetter(skew);
-
-            // Velocity-driven background text distortion
-            if (bgText && bgSkewSetter) {
-              const bgSkew = clamp(velocity / -500, -8, 8);
-              bgSkewSetter(bgSkew);
-              const scaleX = clamp(1 + Math.abs(velocity) / 50000, 1, 1.06);
-              bgText.style.transform = `translate(-50%, -50%) skewX(${bgSkew}deg) scaleX(${scaleX})`;
-            }
-          },
-        });
-
-        // Reset skew when scrolling stops
-        ScrollTrigger.addEventListener("scrollEnd", () => {
-          gsap.to(images, {
-            skewX: 0,
-            duration: 0.8,
-            ease: "elastic.out(1, 0.3)",
-            overwrite: true,
-          });
-
-          if (bgText) {
-            gsap.to(bgText, {
-              skewX: 0,
-              scaleX: 1,
-              duration: 1.2,
-              ease: "elastic.out(1, 0.3)",
-              overwrite: true,
-            });
+        // Use GSAP ticker instead of separate ScrollTrigger for velocity effects
+        const tickerCallback = () => {
+          const st = horizontalTween.scrollTrigger;
+          if (!st) return;
+          const velocity = st.getVelocity();
+          // Only update if velocity changed meaningfully (skip idle frames)
+          if (Math.abs(velocity - lastVelocity) > 10) {
+            lastVelocity = velocity;
+            skewSetter(clamp(velocity / -300, -5, 5));
           }
-        });
+          // Auto-reset skew when stopped
+          if (Math.abs(velocity) < 5 && Math.abs(lastVelocity) > 5) {
+            gsap.to(images, { skewX: 0, duration: 0.6, ease: "power2.out", overwrite: true });
+          }
+        };
+        gsap.ticker.add(tickerCallback);
 
-        // Clip-path image reveal animations using containerAnimation
+        // GPU-composited image reveal animations using containerAnimation
         const galleryImages = slider.querySelectorAll(".gallery-reveal");
         galleryImages.forEach((img, i) => {
-          const pattern = REVEAL_PATTERNS[i % REVEAL_PATTERNS.length];
-          gsap.set(img, { clipPath: pattern.from });
+          const variant = REVEAL_VARIANTS[i % REVEAL_VARIANTS.length];
+          gsap.set(img, { opacity: 0, scale: variant.fromScale, xPercent: parseFloat(variant.fromX), willChange: "transform, opacity" });
 
           ScrollTrigger.create({
             trigger: img,
@@ -157,15 +115,19 @@ export default function Gallery() {
             start: "left 90%",
             onEnter: () => {
               gsap.to(img, {
-                clipPath: pattern.to,
+                opacity: 1,
+                scale: 1,
+                xPercent: 0,
                 duration: 1.2,
-                ease: "power3.inOut",
+                ease: "power3.out",
+                clearProps: "willChange",
               });
             },
           });
         });
 
         return () => {
+          gsap.ticker.remove(tickerCallback);
           horizontalTween.scrollTrigger?.kill();
         };
       });
@@ -193,11 +155,10 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* Background Text — velocity-reactive */}
+      {/* Background Text — static decorative element */}
       <div className="hidden md:block absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <p
-          ref={bgTextRef}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-heading font-bold text-forest/[0.04] select-none will-change-transform"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-heading font-bold text-forest/[0.04] select-none"
           style={{ fontSize: "clamp(8rem, 18vw, 20rem)" }}
         >
           {BRAND.taglines.gallery}
@@ -258,7 +219,7 @@ export default function Gallery() {
           <div
             ref={progressRef}
             className="h-full bg-forest origin-left"
-            style={{ transform: "scaleX(0)" }}
+            style={{ transform: "scaleX(0)", willChange: "transform" }}
           />
         </div>
       </div>

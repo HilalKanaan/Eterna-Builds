@@ -206,7 +206,6 @@ export default function HeroDistortion({
       const s = strengthRef.current;
       s.current += (s.target - s.current) * 0.06;
 
-      resize();
       gl.uniform1i(uTexture, 0);
       gl.uniform2f(uMouse, m.x, m.y);
       gl.uniform1f(uTime, time);

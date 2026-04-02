@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
  * Generates a small noise texture as a base64 data URI.
  * Done once on mount, then CSS animation handles the rest.
  */
-function generateNoiseDataURI(size = 150): string {
+function generateNoiseDataURI(size = 100): string {
   const canvas = document.createElement("canvas");
   canvas.width = size;
   canvas.height = size;

@@ -19,47 +19,43 @@ export function useTilt(config: TiltConfig = {}) {
     if (!el) return;
     if (window.matchMedia("(hover: none)").matches) return;
 
+    // Use quickTo for GPU-efficient tween reuse on mousemove
+    const rotateXTo = gsap.quickTo(el, "rotateX", { duration: speed, ease: "power2.out" });
+    const rotateYTo = gsap.quickTo(el, "rotateY", { duration: speed, ease: "power2.out" });
+    const scaleTo = gsap.quickTo(el, "scale", { duration: speed, ease: "power2.out" });
+
+    gsap.set(el, { transformPerspective: 800, willChange: "transform" });
+
     const handleMouseMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
 
-      const rotateY = ((mouseX - centerX) / (rect.width / 2)) * maxTilt;
-      const rotateX = -((mouseY - centerY) / (rect.height / 2)) * maxTilt;
+      const rotateY = ((e.clientX - centerX) / (rect.width / 2)) * maxTilt;
+      const rotateX = -((e.clientY - centerY) / (rect.height / 2)) * maxTilt;
 
-      gsap.to(el, {
-        rotateX,
-        rotateY,
-        scale,
-        transformPerspective: 800,
-        duration: speed,
-        ease: "power2.out",
-        overwrite: "auto",
-      });
+      rotateXTo(rotateX);
+      rotateYTo(rotateY);
+      scaleTo(scale);
 
       // Update glare position
       if (glareRef.current) {
-        const xPercent = ((mouseX - rect.left) / rect.width) * 100;
-        const yPercent = ((mouseY - rect.top) / rect.height) * 100;
-        glareRef.current.style.background = `radial-gradient(circle at ${xPercent}% ${yPercent}%, rgba(255,255,255,0.18) 0%, transparent 60%)`;
-        glareRef.current.style.opacity = "1";
+        const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
+        const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
+        gsap.set(glareRef.current, {
+          background: `radial-gradient(circle at ${xPercent}% ${yPercent}%, rgba(255,255,255,0.18) 0%, transparent 60%)`,
+          opacity: 1,
+        });
       }
     };
 
     const handleMouseLeave = () => {
-      gsap.to(el, {
-        rotateX: 0,
-        rotateY: 0,
-        scale: 1,
-        duration: 0.8,
-        ease: "elastic.out(1, 0.3)",
-        overwrite: "auto",
-      });
+      rotateXTo(0);
+      rotateYTo(0);
+      scaleTo(1);
 
       if (glareRef.current) {
-        glareRef.current.style.opacity = "0";
+        gsap.set(glareRef.current, { opacity: 0 });
       }
     };
 
