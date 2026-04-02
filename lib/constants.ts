@@ -5,6 +5,7 @@ export const BRAND = {
     about:
       "Driving bold construction projects to timeless spaces for modern living.",
     gallery: "Designed to Feel Right",
+    process: "Built to Last",
   },
   contact: {
     lebanon: { label: "Lebanon", code: "🇱🇧", phone: "+961 3 665 002" },

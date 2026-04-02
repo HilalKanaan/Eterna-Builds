@@ -19,12 +19,12 @@ export function useTilt(config: TiltConfig = {}) {
     if (!el) return;
     if (window.matchMedia("(hover: none)").matches) return;
 
-    // Use quickTo for GPU-efficient tween reuse on mousemove
+    // Set initial values BEFORE creating quickTo (prevents "not eligible for reset" warnings)
+    gsap.set(el, { rotateX: 0, rotateY: 0, scale: 1, transformPerspective: 800, willChange: "transform" });
+
     const rotateXTo = gsap.quickTo(el, "rotateX", { duration: speed, ease: "power2.out" });
     const rotateYTo = gsap.quickTo(el, "rotateY", { duration: speed, ease: "power2.out" });
     const scaleTo = gsap.quickTo(el, "scale", { duration: speed, ease: "power2.out" });
-
-    gsap.set(el, { transformPerspective: 800, willChange: "transform" });
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect();
