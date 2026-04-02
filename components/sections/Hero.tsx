@@ -1,0 +1,279 @@
+"use client";
+
+import { useRef, useEffect, useState } from "react";
+import Image from "next/image";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { ChevronDown } from "lucide-react";
+import { BRAND } from "@/lib/constants";
+import { splitTextToChars } from "@/lib/splitText";
+import HeroDistortion from "@/components/ui/HeroDistortion";
+
+export default function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const headingLine1Ref = useRef<HTMLDivElement>(null);
+  const headingLine2Ref = useRef<HTMLDivElement>(null);
+  const subtitleRef = useRef<HTMLSpanElement>(null);
+  const locationRef = useRef<HTMLParagraphElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const [supportsWebGL, setSupportsWebGL] = useState(false);
+
+  // Detect WebGL support on mount
+  useEffect(() => {
+    if (window.matchMedia("(hover: none)").matches) return;
+    try {
+      const canvas = document.createElement("canvas");
+      const gl =
+        canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+      if (gl && navigator.hardwareConcurrency >= 4) {
+        setSupportsWebGL(true);
+      }
+    } catch {
+      // No WebGL support
+    }
+  }, []);
+
+  // Mouse parallax on background
+  useEffect(() => {
+    if (window.matchMedia("(hover: none)").matches) return;
+
+    const bg = bgRef.current;
+    if (!bg) return;
+
+    const xTo = gsap.quickTo(bg, "x", { duration: 1.2, ease: "power3" });
+    const yTo = gsap.quickTo(bg, "y", { duration: 1.2, ease: "power3" });
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      xTo((e.clientX - centerX) * 0.02);
+      yTo((e.clientY - centerY) * 0.02);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  useGSAP(
+    () => {
+      const section = sectionRef.current;
+      const bg = bgRef.current;
+      if (!section || !bg) return;
+
+      // Wait for preloader to finish
+      const runAnimations = () => {
+        const tl = gsap.timeline({ delay: 0.2 });
+
+        // Image clip-path reveal
+        tl.fromTo(
+          bg,
+          { clipPath: "inset(50% 25% 50% 25%)" },
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            duration: 1.4,
+            ease: "power4.inOut",
+          }
+        );
+
+        // Subtitle fade in
+        tl.fromTo(
+          subtitleRef.current,
+          { yPercent: 100, opacity: 0 },
+          { yPercent: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+          "-=0.6"
+        );
+
+        // Character-level heading animation — Line 1
+        if (headingLine1Ref.current) {
+          const chars1 = splitTextToChars(headingLine1Ref.current);
+          tl.fromTo(
+            chars1,
+            { yPercent: 120, rotateX: 80, opacity: 0 },
+            {
+              yPercent: 0,
+              rotateX: 0,
+              opacity: 1,
+              stagger: 0.03,
+              duration: 0.9,
+              ease: "power4.out",
+            },
+            "-=0.5"
+          );
+        }
+
+        // Character-level heading animation — Line 2
+        if (headingLine2Ref.current) {
+          const chars2 = splitTextToChars(headingLine2Ref.current);
+          tl.fromTo(
+            chars2,
+            { yPercent: 120, rotateX: 80, opacity: 0 },
+            {
+              yPercent: 0,
+              rotateX: 0,
+              opacity: 1,
+              stagger: 0.03,
+              duration: 0.9,
+              ease: "power4.out",
+            },
+            "-=0.7"
+          );
+        }
+
+        // Location text
+        tl.fromTo(
+          locationRef.current,
+          { yPercent: 50, opacity: 0 },
+          { yPercent: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+          "-=0.5"
+        );
+
+        // Scroll indicator
+        tl.fromTo(
+          scrollIndicatorRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.6 },
+          "-=0.3"
+        );
+
+        // Infinite bounce on scroll indicator
+        gsap.to(scrollIndicatorRef.current, {
+          y: 10,
+          duration: 1.2,
+          ease: "power1.inOut",
+          repeat: -1,
+          yoyo: true,
+          delay: 3.5,
+        });
+      };
+
+      // Ensure animations only run once
+      let hasRun = false;
+      const safeRunAnimations = () => {
+        if (hasRun) return;
+        hasRun = true;
+        runAnimations();
+      };
+
+      // Listen for preloader complete event
+      window.addEventListener("preloaderComplete", safeRunAnimations);
+
+      // Fallback if preloader already completed
+      const timeout = setTimeout(safeRunAnimations, 5000);
+
+      // Scroll parallax on background
+      gsap.to(bg, {
+        yPercent: -20,
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+
+      // Pin hero and scale down as About slides over
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top top",
+        end: "+=60%",
+        pin: true,
+        pinSpacing: false,
+        onUpdate: (self) => {
+          gsap.set(overlayRef.current, {
+            scale: 1 - self.progress * 0.08,
+            opacity: 1 - self.progress * 0.6,
+          });
+        },
+      });
+
+      return () => {
+        window.removeEventListener("preloaderComplete", safeRunAnimations);
+        clearTimeout(timeout);
+      };
+    },
+    { scope: sectionRef }
+  );
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative h-screen w-full overflow-hidden"
+      id="home"
+    >
+      <div ref={overlayRef} className="relative h-full w-full">
+        {/* Background — WebGL distortion or static fallback */}
+        <div ref={bgRef} className="absolute inset-0 scale-110">
+          {supportsWebGL ? (
+            <HeroDistortion
+              imageSrc="/images/hero.jpg"
+              className="object-cover"
+            />
+          ) : (
+            <Image
+              src="/images/hero.jpg"
+              alt="Luxury modern interior"
+              fill
+              className="object-cover"
+              priority
+              sizes="100vw"
+            />
+          )}
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-charcoal/50 via-charcoal/20 to-charcoal/60" />
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 sm:px-6 text-center">
+          {/* Subtitle */}
+          <div className="overflow-hidden mb-6">
+            <span
+              ref={subtitleRef}
+              className="inline-block text-sm tracking-[0.35em] uppercase text-amber font-heading"
+            >
+              Interior Design & Architecture
+            </span>
+          </div>
+
+          {/* Main heading */}
+          <h1
+            className="font-heading font-bold text-beige leading-[0.95]"
+            style={{
+              fontSize: "clamp(2.25rem, 10vw, 9rem)",
+              perspective: "400px",
+            }}
+          >
+            <div className="overflow-hidden">
+              <div ref={headingLine1Ref}>Spaces that</div>
+            </div>
+            <div className="overflow-hidden">
+              <div ref={headingLine2Ref} className="italic text-amber">
+                Understand you
+              </div>
+            </div>
+          </h1>
+
+          {/* Location */}
+          <p
+            ref={locationRef}
+            className="mt-8 text-beige/60 text-sm tracking-[0.25em] uppercase font-heading"
+          >
+            Lebanon &mdash; Saudi Arabia
+          </p>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div
+          ref={scrollIndicatorRef}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0"
+          data-cursor-text="Scroll"
+        >
+          <span className="text-beige/40 text-xs tracking-[0.3em] uppercase">
+            Scroll
+          </span>
+          <ChevronDown className="w-5 h-5 text-beige/40" />
+        </div>
+      </div>
+    </section>
+  );
+}

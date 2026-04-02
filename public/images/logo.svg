@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 360" fill="none">
+  <!-- 3D Building Block Logo -->
+  <g transform="translate(50, 20)">
+    <!-- Back face (darker) -->
+    <path d="M100 30 L200 30 L200 200 L100 200 Z" fill="#1a3a2a"/>
+
+    <!-- Top face -->
+    <path d="M40 60 L100 30 L200 30 L140 60 Z" fill="#2d6b4a"/>
+
+    <!-- Front face - Floor 1 (top) -->
+    <path d="M40 60 L140 60 L140 105 L40 105 Z" fill="#1f4d35"/>
+
+    <!-- White gap 1 -->
+    <path d="M40 105 L140 105 L140 115 L40 115 Z" fill="white"/>
+
+    <!-- Side face - Floor 1 -->
+    <path d="M140 60 L200 30 L200 75 L140 105 Z" fill="#163024"/>
+
+    <!-- Side white gap 1 -->
+    <path d="M140 105 L200 75 L200 85 L140 115 Z" fill="white"/>
+
+    <!-- Front face - Floor 2 -->
+    <path d="M40 115 L140 115 L140 160 L40 160 Z" fill="#1f4d35"/>
+
+    <!-- White gap 2 -->
+    <path d="M40 160 L140 160 L140 170 L40 170 Z" fill="white"/>
+
+    <!-- Side face - Floor 2 -->
+    <path d="M140 115 L200 85 L200 130 L140 160 Z" fill="#163024"/>
+
+    <!-- Side white gap 2 -->
+    <path d="M140 160 L200 130 L200 140 L140 170 Z" fill="white"/>
+
+    <!-- Front face - Floor 3 (bottom) -->
+    <path d="M40 170 L140 170 L140 220 L40 220 Z" fill="#1f4d35"/>
+
+    <!-- Side face - Floor 3 -->
+    <path d="M140 170 L200 140 L200 190 L140 220 Z" fill="#163024"/>
+
+    <!-- Bottom face -->
+    <path d="M40 220 L140 220 L200 190 L100 190 Z" fill="#0f2218"/>
+  </g>
+
+  <!-- Text -->
+  <text x="150" y="310" text-anchor="middle" font-family="'Montserrat', 'Arial', sans-serif" font-size="30" font-weight="500" letter-spacing="4" fill="#1f4d35">Eterna Builds</text>
+</svg>

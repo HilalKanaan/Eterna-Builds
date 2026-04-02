@@ -1,26 +1,94 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Brand Colors */
+  --color-forest: #1a3a2a;
+  --color-forest-light: #2a5a3a;
+  --color-beige: #f5f0e8;
+  --color-cream: #faf7f2;
+  --color-wood: #d4b896;
+  --color-charcoal: #1a1a1a;
+  --color-amber: #c8a45c;
+  --color-amber-light: #d4b870;
+
+  /* Typography */
+  --font-heading: var(--font-montserrat), "Montserrat", sans-serif;
+  --font-body: var(--font-inter), "Inter", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base */
+* {
+  cursor: none;
+}
+
+html {
+  scroll-behavior: auto;
+  overflow-x: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  background-color: #faf7f2;
+  color: #1a1a1a;
+  overflow-x: hidden;
+}
+
+main {
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+::selection {
+  background-color: #1a3a2a;
+  color: #f5f0e8;
+}
+
+/* Smooth scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #faf7f2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1a3a2a;
+  border-radius: 3px;
+}
+
+/* Restore cursor on touch devices */
+@media (hover: none) {
+  * {
+    cursor: auto;
+  }
+}
+
+/* Film Grain Overlay */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background-repeat: repeat;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  animation: grain 0.8s steps(6) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { background-position: 0 0; }
+  16% { background-position: -60px -40px; }
+  33% { background-position: 40px -60px; }
+  50% { background-position: -40px 50px; }
+  66% { background-position: 60px 20px; }
+  83% { background-position: -30px -50px; }
 }
