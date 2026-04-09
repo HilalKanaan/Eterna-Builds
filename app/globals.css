@@ -72,6 +72,34 @@ h6 {
   }
 }
 
+/* Scroll Indicator Pulse */
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2.5s ease-in-out infinite;
+}
+
+/* Scroll Indicator Bounce */
+@keyframes scroll-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.animate-scroll-bounce {
+  animation: scroll-bounce 1.4s ease-in-out infinite;
+}
+
 /* Film Grain Overlay */
 .film-grain {
   position: fixed;

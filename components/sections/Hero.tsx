@@ -3,8 +3,6 @@
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
-import { ChevronDown } from "lucide-react";
-import { BRAND } from "@/lib/constants";
 import { splitTextToChars } from "@/lib/splitText";
 import HeroDistortion from "@/components/ui/HeroDistortion";
 
@@ -131,23 +129,28 @@ export default function Hero() {
           "-=0.5"
         );
 
-        // Scroll indicator
+        // Scroll indicator — fade in, then set up fade-out on scroll after entrance completes
         tl.fromTo(
           scrollIndicatorRef.current,
           { opacity: 0 },
-          { opacity: 1, duration: 0.6 },
+          {
+            opacity: 1,
+            duration: 0.6,
+            onComplete: () => {
+              gsap.to(scrollIndicatorRef.current, {
+                opacity: 0,
+                y: 20,
+                scrollTrigger: {
+                  trigger: section,
+                  start: "2% top",
+                  end: "15% top",
+                  scrub: true,
+                },
+              });
+            },
+          },
           "-=0.3"
         );
-
-        // Infinite bounce on scroll indicator
-        gsap.to(scrollIndicatorRef.current, {
-          y: 10,
-          duration: 1.2,
-          ease: "power1.inOut",
-          repeat: -1,
-          yoyo: true,
-          delay: 3.5,
-        });
       };
 
       // Ensure animations only run once
@@ -268,13 +271,31 @@ export default function Hero() {
         {/* Scroll Indicator */}
         <div
           ref={scrollIndicatorRef}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-5 opacity-0"
           data-cursor-text="Scroll"
         >
-          <span className="text-beige/40 text-xs tracking-[0.3em] uppercase">
-            Scroll
-          </span>
-          <ChevronDown className="w-5 h-5 text-beige/40" />
+          {/* Glowing pill badge */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-amber/30 rounded-full blur-xl animate-pulse-soft" />
+            <div className="relative px-6 py-2.5 border border-amber/50 rounded-full bg-amber/10 backdrop-blur-sm">
+              <span className="text-amber text-sm font-heading font-semibold tracking-[0.3em] uppercase">
+                Scroll down
+              </span>
+            </div>
+          </div>
+
+          {/* Animated chevrons */}
+          <div className="flex flex-col items-center gap-1 animate-scroll-bounce">
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-amber opacity-40">
+              <path d="M1 1L10 8L19 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-amber opacity-70">
+              <path d="M1 1L10 8L19 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-amber">
+              <path d="M1 1L10 8L19 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
         </div>
       </div>
     </section>

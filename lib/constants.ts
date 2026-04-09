@@ -11,6 +11,8 @@ export const BRAND = {
     lebanon: { label: "Lebanon", code: "🇱🇧", phone: "+961 3 665 002" },
     saudi: { label: "Saudi Arabia", code: "🇸🇦", phone: "+966 507 515 273" },
     facebook: "https://facebook.com/EternaBuilds",
+    instagram: "https://www.instagram.com/eterna.builds/",
+    linkedin: "https://www.linkedin.com/company/eterna-builds/posts/?feedView=all",
   },
 } as const;
 

@@ -1,71 +1,94 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { BRAND } from "@/lib/constants";
-import { MapPin, Facebook } from "lucide-react";
-import MagneticButton from "@/components/ui/MagneticButton";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 import Marquee from "@/components/ui/Marquee";
-import { splitTextToChars } from "@/lib/splitText";
+
+const COUNTRIES = [
+  { id: "lebanon", label: "Lebanon", flag: "🇱🇧" },
+  { id: "ksa", label: "Saudi Arabia", flag: "🇸🇦" },
+];
+
+const PROJECT_TYPES = [
+  { id: "commercial", label: "Commercial" },
+  { id: "private", label: "Private" },
+  { id: "organizational", label: "Organizational" },
+];
+
+const SERVICES = [
+  { id: "design", label: "Design" },
+  { id: "pm", label: "PM & Consultancy" },
+  { id: "supervision", label: "Supervision" },
+  { id: "execution", label: "Execution & Contracting" },
+];
+
+interface FormState {
+  name: string;
+  email: string;
+  phone: string;
+  country: string;
+  projectType: string;
+  services: string[];
+}
 
 export default function Footer() {
   const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+
+  const [form, setForm] = useState<FormState>({
+    name: "",
+    email: "",
+    phone: "",
+    country: "",
+    projectType: "",
+    services: [],
+  });
+
+  const [focused, setFocused] = useState<string | null>(null);
+
+  const toggleService = (id: string) => {
+    setForm((prev) => ({
+      ...prev,
+      services: prev.services.includes(id)
+        ? prev.services.filter((s) => s !== id)
+        : [...prev.services, id],
+    }));
+  };
 
   useGSAP(
     () => {
-      // Character-level heading reveal
-      const heading = headingRef.current;
-      if (heading) {
-        // Split each line's text content into chars
-        const lines = heading.querySelectorAll(".footer-heading-line");
-        const allChars: HTMLSpanElement[] = [];
-        lines.forEach((line) => {
-          const chars = splitTextToChars(line as HTMLElement);
-          allChars.push(...chars);
-        });
-
-        gsap.fromTo(
-          allChars,
-          { yPercent: 100, opacity: 0 },
-          {
-            yPercent: 0,
-            opacity: 1,
-            stagger: 0.02,
-            duration: 0.6,
-            ease: "power4.out",
-            scrollTrigger: {
-              trigger: heading,
-              start: "top 85%",
-            },
-          }
-        );
-      }
-
-      // Content stagger
-      const items = contentRef.current?.querySelectorAll(".footer-item");
-      if (items) {
-        gsap.fromTo(
-          items,
-          { yPercent: 30, opacity: 0 },
-          {
-            yPercent: 0,
-            opacity: 1,
-            stagger: 0.1,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: contentRef.current,
-              start: "top 85%",
-            },
-          }
-        );
-      }
+      gsap.fromTo(
+        ".footer-row",
+        { y: 24, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.1,
+          duration: 0.7,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%",
+          },
+        }
+      );
     },
     { scope: sectionRef }
   );
+
+  /* ── Styling helpers ── */
+  const inputBase =
+    "w-full bg-transparent border-b border-beige/15 pb-2.5 pt-0.5 text-sm text-beige placeholder-beige/25 font-body outline-none transition-colors duration-300 focus:border-amber";
+
+  const pillBase =
+    "px-3.5 py-1.5 rounded-full border text-xs font-heading font-medium tracking-wide transition-all duration-300 cursor-pointer select-none whitespace-nowrap";
+
+  const pillInactive =
+    "border-beige/20 text-beige/50 hover:border-amber/50 hover:text-beige";
+
+  const pillActive = "bg-amber border-amber text-charcoal";
 
   return (
     <footer
@@ -73,8 +96,8 @@ export default function Footer() {
       className="relative bg-charcoal text-beige overflow-hidden"
       id="contact"
     >
-      {/* Marquee Background */}
-      <div className="absolute inset-0 pointer-events-none flex flex-col justify-center gap-4 opacity-[0.03]">
+      {/* Moving marquee watermark */}
+      <div className="absolute inset-0 pointer-events-none flex flex-col justify-center gap-4 opacity-[0.035]">
         <Marquee
           text="Eterna Builds"
           speed={25}
@@ -93,93 +116,225 @@ export default function Footer() {
         />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-40">
-        {/* CTA Section */}
-        <div className="text-center mb-20 md:mb-32">
-          <h2
-            ref={headingRef}
-            className="font-heading font-bold leading-[1.1] mb-10"
-            style={{ fontSize: "clamp(1.75rem, 6vw, 5rem)", perspective: "400px" }}
-          >
-            <span className="footer-heading-line block overflow-hidden">Let&apos;s Build Something</span>
-            <span className="footer-heading-line block overflow-hidden italic text-amber">Timeless</span>
-          </h2>
-          <div data-cursor-text="Click">
-            <MagneticButton>Start Your Project</MagneticButton>
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-16 pb-8 md:pt-20 md:pb-10">
+
+        {/* ── Form header ── */}
+        <div className="footer-row flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-10">
+          <div>
+            <span className="text-[10px] tracking-[0.35em] uppercase text-amber font-heading block mb-2">
+              Contact Us
+            </span>
+            <h2
+              className="font-heading font-bold text-beige leading-tight"
+              style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.8rem)" }}
+            >
+              Start Your{" "}
+              <span className="italic text-amber">Project</span>
+            </h2>
           </div>
+          <p className="text-beige/40 text-sm max-w-xs text-right hidden sm:block">
+            Share your vision — we&apos;ll get back to you shortly.
+          </p>
         </div>
 
-        {/* Contact Info */}
-        <div ref={contentRef}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-            {/* Lebanon */}
-            <div className="footer-item">
-              <div className="flex items-center gap-3 mb-3">
-                <MapPin className="w-4 h-4 text-amber" />
-                <span className="text-xs tracking-[0.3em] uppercase font-heading text-beige/50">
-                  {BRAND.contact.lebanon.label}
-                </span>
-              </div>
-              <a
-                href={`tel:${BRAND.contact.lebanon.phone.replace(/\s/g, "")}`}
-                className="text-2xl md:text-3xl font-heading font-light text-beige hover:text-amber transition-colors duration-300"
-                data-hover
-              >
-                {BRAND.contact.lebanon.phone}
-              </a>
+        {/* ── Form ── */}
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="flex flex-col gap-6"
+        >
+          {/* Row 1 — Name / Email / Phone */}
+          <div className="footer-row grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-6">
+            <div>
+              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-beige/35 block mb-2">
+                Full Name
+              </label>
+              <input
+                type="text"
+                placeholder="Your name"
+                autoComplete="name"
+                className={inputBase}
+                style={focused === "name" ? {} : {}}
+                value={form.name}
+                onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
+                onFocus={() => setFocused("name")}
+                onBlur={() => setFocused(null)}
+              />
             </div>
-
-            {/* Saudi Arabia */}
-            <div className="footer-item">
-              <div className="flex items-center gap-3 mb-3">
-                <MapPin className="w-4 h-4 text-amber" />
-                <span className="text-xs tracking-[0.3em] uppercase font-heading text-beige/50">
-                  {BRAND.contact.saudi.label}
-                </span>
-              </div>
-              <a
-                href={`tel:${BRAND.contact.saudi.phone.replace(/\s/g, "")}`}
-                className="text-2xl md:text-3xl font-heading font-light text-beige hover:text-amber transition-colors duration-300"
-                data-hover
-              >
-                {BRAND.contact.saudi.phone}
-              </a>
+            <div>
+              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-beige/35 block mb-2">
+                Email Address
+              </label>
+              <input
+                type="email"
+                placeholder="your@email.com"
+                autoComplete="email"
+                className={inputBase}
+                value={form.email}
+                onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+                onFocus={() => setFocused("email")}
+                onBlur={() => setFocused(null)}
+              />
+            </div>
+            <div>
+              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-beige/35 block mb-2">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                placeholder="+961 / +966"
+                autoComplete="tel"
+                className={inputBase}
+                value={form.phone}
+                onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
+                onFocus={() => setFocused("phone")}
+                onBlur={() => setFocused(null)}
+              />
             </div>
           </div>
 
-          {/* Divider */}
-          <hr className="footer-item border-beige/10 mb-8" />
+          {/* Row 2 — Country + Project Type */}
+          <div className="footer-row grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
+            <div>
+              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-beige/35 block mb-3">
+                Country
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {COUNTRIES.map((c) => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => setForm((p) => ({ ...p, country: c.id }))}
+                    className={`${pillBase} ${form.country === c.id ? pillActive : pillInactive}`}
+                  >
+                    <span className="mr-1">{c.flag}</span>
+                    {c.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-beige/35 block mb-3">
+                Type of Project
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {PROJECT_TYPES.map((type) => (
+                  <button
+                    key={type.id}
+                    type="button"
+                    onClick={() => setForm((p) => ({ ...p, projectType: type.id }))}
+                    className={`${pillBase} ${form.projectType === type.id ? pillActive : pillInactive}`}
+                  >
+                    {type.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
 
-          {/* Bottom Row */}
-          <div className="footer-item flex flex-col md:flex-row items-center justify-between gap-6">
-            <Image
-              src="/images/logo.svg"
-              alt={BRAND.name}
-              width={160}
-              height={80}
-              className="h-14 w-auto"
-              style={{ filter: "brightness(0) invert(1)" }}
-            />
+          {/* Row 3 — Services multi-select */}
+          <div className="footer-row">
+            <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-beige/35 block mb-3">
+              Services Required{" "}
+              <span className="text-beige/20 normal-case tracking-normal font-body">
+                — select all that apply
+              </span>
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {SERVICES.map((service) => {
+                const active = form.services.includes(service.id);
+                return (
+                  <button
+                    key={service.id}
+                    type="button"
+                    onClick={() => toggleService(service.id)}
+                    className={`${pillBase} ${active ? pillActive : pillInactive}`}
+                  >
+                    {active && (
+                      <span className="mr-1 text-[9px] font-bold">✓</span>
+                    )}
+                    {service.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
+          {/* Row 4 — Submit */}
+          <div className="footer-row flex justify-end pt-1">
+            <button
+              type="submit"
+              className="group inline-flex items-center gap-2.5 px-8 py-3 bg-amber hover:bg-amber-light text-charcoal font-heading font-semibold text-xs tracking-[0.2em] uppercase rounded-full transition-all duration-300"
+              data-hover
+              data-cursor-text="Send"
+            >
+              Send Enquiry
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 16 16"
+                fill="none"
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              >
+                <path
+                  d="M3 8h10M9 4l4 4-4 4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        {/* ── Divider ── */}
+        <hr className="border-beige/8 my-10" />
+
+        {/* ── Bottom bar ── */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
+          <Image
+            src="/images/Logo copy.png"
+            alt={BRAND.name}
+            width={373}
+            height={321}
+            className="h-8 w-auto"
+            style={{ filter: "brightness(0) invert(1)" }}
+          />
+          <div className="flex items-center gap-5">
             <a
               href={BRAND.contact.facebook}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-beige/50 hover:text-amber transition-colors duration-300 text-sm"
+              className="text-beige/40 hover:text-amber transition-colors duration-300"
               data-hover
+              aria-label="Facebook"
             >
               <Facebook className="w-4 h-4" />
-              <span className="font-heading tracking-wider">
-                Eterna Builds
-              </span>
             </a>
-
-            <span className="text-beige/30 text-xs tracking-wider">
-              &copy; {new Date().getFullYear()} Eterna Builds. All rights
-              reserved.
-            </span>
+            <a
+              href={BRAND.contact.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-beige/40 hover:text-amber transition-colors duration-300"
+              data-hover
+              aria-label="Instagram"
+            >
+              <Instagram className="w-4 h-4" />
+            </a>
+            <a
+              href={BRAND.contact.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-beige/40 hover:text-amber transition-colors duration-300"
+              data-hover
+              aria-label="LinkedIn"
+            >
+              <Linkedin className="w-4 h-4" />
+            </a>
           </div>
+          <span className="text-beige/25 text-xs tracking-wider">
+            &copy; {new Date().getFullYear()} Eterna Builds. All rights reserved.
+          </span>
         </div>
       </div>
     </footer>

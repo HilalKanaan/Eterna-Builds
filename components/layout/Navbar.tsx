@@ -97,10 +97,10 @@ export default function Navbar() {
             }}
           >
             <Image
-              src="/images/logo.svg"
+              src="/images/Logo copy.png"
               alt={BRAND.name}
-              width={120}
-              height={48}
+              width={373}
+              height={321}
               className="h-8 w-auto md:h-10"
               style={{ filter: "brightness(0) invert(1)" }}
             />
@@ -112,7 +112,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-beige/70 hover:text-amber text-sm tracking-[0.15em] uppercase font-heading transition-colors duration-300"
+                className="text-beige/70 hover:text-amber text-base font-medium tracking-[0.15em] uppercase font-heading transition-colors duration-300"
                 data-hover
                 data-cursor-text="Explore"
                 onClick={(e) => {
@@ -123,6 +123,19 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
+
+            {/* Download Company Profile CTA */}
+            <a
+              href="#"
+              className="inline-flex items-center gap-2 bg-amber hover:bg-amber-light text-charcoal font-heading font-semibold text-sm tracking-wider uppercase rounded-full px-5 py-2.5 transition-colors duration-300"
+              data-hover
+              data-cursor-text="Download"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
+                <path d="M8 2v8m0 0L5 7m3 3l3-3M3 13h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Company Profile
+            </a>
           </div>
 
           {/* Hamburger */}
@@ -161,7 +174,7 @@ export default function Navbar() {
           <div key={link.href} className="overflow-hidden">
             <a
               href={link.href}
-              className="menu-link block font-heading text-beige text-4xl tracking-[0.15em] uppercase hover:text-amber transition-colors"
+              className="menu-link block font-heading font-semibold text-beige text-5xl tracking-[0.15em] uppercase hover:text-amber transition-colors"
               data-hover
               onClick={(e) => {
                 e.preventDefault();
@@ -172,6 +185,20 @@ export default function Navbar() {
             </a>
           </div>
         ))}
+
+        {/* Download Company Profile CTA */}
+        <div className="overflow-hidden mt-4">
+          <a
+            href="#"
+            className="menu-link inline-flex items-center gap-3 bg-amber hover:bg-amber-light text-charcoal font-heading font-semibold text-lg tracking-wider uppercase rounded-full px-8 py-3.5 transition-colors duration-300"
+            data-hover
+          >
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none" className="shrink-0">
+              <path d="M8 2v8m0 0L5 7m3 3l3-3M3 13h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Company Profile
+          </a>
+        </div>
       </div>
     </>
   );

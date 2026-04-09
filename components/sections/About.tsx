@@ -179,6 +179,26 @@ export default function About() {
       id="about"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-40">
+        {/* Stats */}
+        <div
+          ref={statsRef}
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12 mb-12 border-b border-beige/10"
+        >
+          {stats.map((stat, i) => (
+            <div key={i}>
+              <div className="font-heading text-amber mb-2" style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)" }}>
+                <span className="stat-number" data-value={stat.value}>
+                  0
+                </span>
+                {stat.suffix}
+              </div>
+              <span className="text-beige/50 text-sm tracking-wider uppercase">
+                {stat.label}
+              </span>
+            </div>
+          ))}
+        </div>
+
         {/* Section Label */}
         <span className="inline-block text-xs tracking-[0.35em] uppercase text-amber mb-12 font-heading">
           Our Philosophy
@@ -196,7 +216,7 @@ export default function About() {
         {/* Two-column description */}
         <div
           ref={descRef}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 mb-12 md:mb-20"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16"
         >
           <p className="desc-col text-beige/70 text-lg leading-relaxed">
             At Eterna Builds, we believe that spaces should resonate with the
@@ -209,26 +229,6 @@ export default function About() {
             bring a unique Mediterranean sensibility to the Middle East&apos;s
             most ambitious residential and commercial projects.
           </p>
-        </div>
-
-        {/* Stats */}
-        <div
-          ref={statsRef}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-12 border-t border-beige/10"
-        >
-          {stats.map((stat, i) => (
-            <div key={i}>
-              <div className="font-heading text-amber mb-2" style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)" }}>
-                <span className="stat-number" data-value={stat.value}>
-                  0
-                </span>
-                {stat.suffix}
-              </div>
-              <span className="text-beige/50 text-sm tracking-wider uppercase">
-                {stat.label}
-              </span>
-            </div>
-          ))}
         </div>
       </div>
 
