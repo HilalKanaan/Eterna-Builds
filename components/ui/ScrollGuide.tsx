@@ -64,7 +64,7 @@ export default function ScrollGuide() {
         className="text-[11px] font-heading font-semibold tracking-[0.25em] uppercase"
         style={{
           writingMode: "vertical-rl",
-          color: "var(--color-amber)",
+          color: "var(--color-minted-grey)",
         }}
       >
         Keep scrolling
@@ -77,7 +77,7 @@ export default function ScrollGuide() {
           className="absolute top-0 left-0 w-full h-full rounded-full origin-top"
           style={{
             transform: "scaleY(0)",
-            background: "linear-gradient(to bottom, var(--color-amber), var(--color-amber-light))",
+            background: "var(--color-minted-grey)",
           }}
         />
       </div>
@@ -85,10 +85,10 @@ export default function ScrollGuide() {
       {/* Animated arrow */}
       <div ref={arrowRef} className="flex flex-col items-center gap-0.5">
         <svg width="14" height="8" viewBox="0 0 14 8" fill="none">
-          <path d="M1 1L7 6L13 1" stroke="var(--color-amber)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/>
+          <path d="M1 1L7 6L13 1" stroke="var(--color-minted-grey)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.5"/>
         </svg>
         <svg width="14" height="8" viewBox="0 0 14 8" fill="none">
-          <path d="M1 1L7 6L13 1" stroke="var(--color-amber)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M1 1L7 6L13 1" stroke="var(--color-minted-grey)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
     </div>

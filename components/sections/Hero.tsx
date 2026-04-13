@@ -226,7 +226,7 @@ export default function Hero() {
             />
           )}
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-charcoal/50 via-charcoal/20 to-charcoal/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-deep-green/50 via-deep-green/20 to-deep-green/60" />
         </div>
 
         {/* Content */}
@@ -235,7 +235,7 @@ export default function Hero() {
           <div className="overflow-hidden mb-6">
             <span
               ref={subtitleRef}
-              className="inline-block text-sm tracking-[0.35em] uppercase text-amber font-heading"
+              className="inline-block text-sm tracking-[0.35em] uppercase text-minted-grey font-heading"
             >
               Interior Design & Architecture
             </span>
@@ -243,7 +243,7 @@ export default function Hero() {
 
           {/* Main heading */}
           <h1
-            className="font-heading font-bold text-beige leading-[0.95]"
+            className="font-heading font-bold text-light-grey leading-[0.95]"
             style={{
               fontSize: "clamp(2.25rem, 10vw, 9rem)",
               perspective: "400px",
@@ -253,7 +253,7 @@ export default function Hero() {
               <div ref={headingLine1Ref}>Spaces that</div>
             </div>
             <div className="overflow-hidden">
-              <div ref={headingLine2Ref} className="italic text-amber">
+              <div ref={headingLine2Ref} className="italic text-minted-grey">
                 Understand you
               </div>
             </div>
@@ -262,7 +262,7 @@ export default function Hero() {
           {/* Location */}
           <p
             ref={locationRef}
-            className="mt-8 text-beige/60 text-sm tracking-[0.25em] uppercase font-heading"
+            className="mt-8 text-light-grey/60 text-sm tracking-[0.25em] uppercase font-heading"
           >
             Lebanon &mdash; Saudi Arabia
           </p>
@@ -276,9 +276,9 @@ export default function Hero() {
         >
           {/* Glowing pill badge */}
           <div className="relative">
-            <div className="absolute inset-0 bg-amber/30 rounded-full blur-xl animate-pulse-soft" />
-            <div className="relative px-6 py-2.5 border border-amber/50 rounded-full bg-amber/10 backdrop-blur-sm">
-              <span className="text-amber text-sm font-heading font-semibold tracking-[0.3em] uppercase">
+            <div className="absolute inset-0 bg-minted-grey/30 rounded-full blur-xl animate-pulse-soft" />
+            <div className="relative px-6 py-2.5 border border-minted-grey/50 rounded-full bg-minted-grey/10 backdrop-blur-sm">
+              <span className="text-minted-grey text-sm font-heading font-semibold tracking-[0.3em] uppercase">
                 Scroll down
               </span>
             </div>
@@ -286,13 +286,13 @@ export default function Hero() {
 
           {/* Animated chevrons */}
           <div className="flex flex-col items-center gap-1 animate-scroll-bounce">
-            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-amber opacity-40">
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-minted-grey opacity-40">
               <path d="M1 1L10 8L19 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-amber opacity-70">
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-minted-grey opacity-70">
               <path d="M1 1L10 8L19 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-amber">
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-minted-grey">
               <path d="M1 1L10 8L19 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>

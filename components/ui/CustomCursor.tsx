@@ -64,7 +64,7 @@ export default function CustomCursor() {
       gsap.to(cursor, {
         width: EXPANDED_SIZE,
         height: EXPANDED_SIZE,
-        borderColor: "#c8a45c",
+        borderColor: "#487d47",
         duration: 0.4,
         ease: "power3.out",
         overwrite: "auto",
@@ -105,7 +105,7 @@ export default function CustomCursor() {
       gsap.to(cursor, {
         width: DEFAULT_SIZE,
         height: DEFAULT_SIZE,
-        borderColor: "#f5f0e8",
+        borderColor: "#f7f9f9",
         rotation: 0,
         duration: 0.4,
         ease: "power3.out",
@@ -149,7 +149,7 @@ export default function CustomCursor() {
       ) {
         gsap.to(cursor, {
           scale: 1.8,
-          borderColor: "#c8a45c",
+          borderColor: "#487d47",
           duration: 0.4,
           ease: "power2.out",
           overwrite: "auto",
@@ -189,7 +189,7 @@ export default function CustomCursor() {
         if (!isExpanded.current) {
           gsap.to(cursor, {
             scale: 1,
-            borderColor: "#f5f0e8",
+            borderColor: "#f7f9f9",
             duration: 0.4,
             ease: "power2.out",
             overwrite: "auto",
@@ -219,7 +219,7 @@ export default function CustomCursor() {
           width: DEFAULT_SIZE,
           height: DEFAULT_SIZE,
           borderRadius: "50%",
-          border: "2px solid #f5f0e8",
+          border: "2px solid #f7f9f9",
           mixBlendMode: "difference",
           willChange: "transform",
         }}
@@ -227,7 +227,7 @@ export default function CustomCursor() {
         {/* Context label */}
         <span
           ref={textRef}
-          className="font-heading text-[10px] tracking-[0.15em] uppercase text-beige select-none"
+          className="font-heading text-[10px] tracking-[0.15em] uppercase text-light-grey select-none"
           style={{
             opacity: 0,
             transform: "scale(0.5)",
@@ -244,7 +244,7 @@ export default function CustomCursor() {
           width: 8,
           height: 8,
           borderRadius: "50%",
-          backgroundColor: "#f5f0e8",
+          backgroundColor: "#f7f9f9",
           mixBlendMode: "difference",
           willChange: "transform",
         }}

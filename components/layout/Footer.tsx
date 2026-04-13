@@ -48,6 +48,52 @@ export default function Footer() {
 
   const [focused, setFocused] = useState<string | null>(null);
 
+  type SubmitStatus = "idle" | "loading" | "success" | "error";
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (
+      !form.name.trim() ||
+      !form.email.trim() ||
+      !form.phone.trim() ||
+      !form.country ||
+      !form.projectType ||
+      form.services.length === 0
+    ) {
+      setErrorMessage("Please fill in all fields and select at least one service.");
+      setSubmitStatus("error");
+      return;
+    }
+
+    setSubmitStatus("loading");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const json = await res.json();
+
+      if (!res.ok) {
+        setErrorMessage(json.error ?? "Something went wrong. Please try again.");
+        setSubmitStatus("error");
+        return;
+      }
+
+      setSubmitStatus("success");
+      setForm({ name: "", email: "", phone: "", country: "", projectType: "", services: [] });
+    } catch {
+      setErrorMessage("Network error. Please check your connection and try again.");
+      setSubmitStatus("error");
+    }
+  };
+
   const toggleService = (id: string) => {
     setForm((prev) => ({
       ...prev,
@@ -80,20 +126,20 @@ export default function Footer() {
 
   /* ── Styling helpers ── */
   const inputBase =
-    "w-full bg-transparent border-b border-beige/15 pb-2.5 pt-0.5 text-sm text-beige placeholder-beige/25 font-body outline-none transition-colors duration-300 focus:border-amber";
+    "w-full bg-transparent border-b border-light-grey/15 pb-2.5 pt-0.5 text-sm text-light-grey placeholder-light-grey/25 font-body outline-none transition-colors duration-300 focus:border-minted-grey";
 
   const pillBase =
     "px-3.5 py-1.5 rounded-full border text-xs font-heading font-medium tracking-wide transition-all duration-300 cursor-pointer select-none whitespace-nowrap";
 
   const pillInactive =
-    "border-beige/20 text-beige/50 hover:border-amber/50 hover:text-beige";
+    "border-light-grey/20 text-light-grey/50 hover:border-minted-grey/50 hover:text-light-grey";
 
-  const pillActive = "bg-amber border-amber text-charcoal";
+  const pillActive = "bg-minted-grey border-minted-grey text-light-grey";
 
   return (
     <footer
       ref={sectionRef}
-      className="relative bg-charcoal text-beige overflow-hidden"
+      className="relative bg-deep-green text-light-grey overflow-hidden"
       id="contact"
     >
       {/* Moving marquee watermark */}
@@ -121,31 +167,59 @@ export default function Footer() {
         {/* ── Form header ── */}
         <div className="footer-row flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-10">
           <div>
-            <span className="text-[10px] tracking-[0.35em] uppercase text-amber font-heading block mb-2">
+            <span className="text-[10px] tracking-[0.35em] uppercase text-minted-grey font-heading block mb-2">
               Contact Us
             </span>
             <h2
-              className="font-heading font-bold text-beige leading-tight"
+              className="font-heading font-bold text-light-grey leading-tight"
               style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.8rem)" }}
             >
               Start Your{" "}
-              <span className="italic text-amber">Project</span>
+              <span className="italic text-minted-grey">Project</span>
             </h2>
           </div>
-          <p className="text-beige/40 text-sm max-w-xs text-right hidden sm:block">
+          <p className="text-light-grey/40 text-sm max-w-xs text-right hidden sm:block">
             Share your vision — we&apos;ll get back to you shortly.
           </p>
         </div>
 
+        {/* ── Phone numbers ── */}
+        <div className="footer-row flex flex-wrap gap-x-10 gap-y-3 mb-10">
+          <div>
+            <p className="text-[9px] tracking-[0.3em] uppercase text-minted-grey font-heading mb-1">
+              Lebanon
+            </p>
+            <a
+              href={`tel:${BRAND.contact.lebanon.phone.replace(/\s/g, "")}`}
+              className="text-light-grey/50 hover:text-light-grey text-sm font-light transition-colors duration-300"
+              data-hover
+            >
+              {BRAND.contact.lebanon.phone}
+            </a>
+          </div>
+          <div>
+            <p className="text-[9px] tracking-[0.3em] uppercase text-minted-grey font-heading mb-1">
+              Saudi Arabia
+            </p>
+            <a
+              href={`tel:${BRAND.contact.saudi.phone.replace(/\s/g, "")}`}
+              className="text-light-grey/50 hover:text-light-grey text-sm font-light transition-colors duration-300"
+              data-hover
+            >
+              {BRAND.contact.saudi.phone}
+            </a>
+          </div>
+        </div>
+
         {/* ── Form ── */}
         <form
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSubmit}
           className="flex flex-col gap-6"
         >
           {/* Row 1 — Name / Email / Phone */}
           <div className="footer-row grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-6">
             <div>
-              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-beige/35 block mb-2">
+              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-light-grey/35 block mb-2">
                 Full Name
               </label>
               <input
@@ -161,7 +235,7 @@ export default function Footer() {
               />
             </div>
             <div>
-              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-beige/35 block mb-2">
+              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-light-grey/35 block mb-2">
                 Email Address
               </label>
               <input
@@ -176,7 +250,7 @@ export default function Footer() {
               />
             </div>
             <div>
-              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-beige/35 block mb-2">
+              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-light-grey/35 block mb-2">
                 Phone Number
               </label>
               <input
@@ -195,7 +269,7 @@ export default function Footer() {
           {/* Row 2 — Country + Project Type */}
           <div className="footer-row grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
             <div>
-              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-beige/35 block mb-3">
+              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-light-grey/35 block mb-3">
                 Country
               </label>
               <div className="flex flex-wrap gap-2">
@@ -213,7 +287,7 @@ export default function Footer() {
               </div>
             </div>
             <div>
-              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-beige/35 block mb-3">
+              <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-light-grey/35 block mb-3">
                 Type of Project
               </label>
               <div className="flex flex-wrap gap-2">
@@ -233,9 +307,9 @@ export default function Footer() {
 
           {/* Row 3 — Services multi-select */}
           <div className="footer-row">
-            <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-beige/35 block mb-3">
+            <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-light-grey/35 block mb-3">
               Services Required{" "}
-              <span className="text-beige/20 normal-case tracking-normal font-body">
+              <span className="text-light-grey/20 normal-case tracking-normal font-body">
                 — select all that apply
               </span>
             </label>
@@ -260,35 +334,48 @@ export default function Footer() {
           </div>
 
           {/* Row 4 — Submit */}
-          <div className="footer-row flex justify-end pt-1">
+          <div className="footer-row flex items-center justify-end gap-4 pt-1">
+            {submitStatus === "success" && (
+              <p className="text-sm font-body text-minted-grey tracking-wide">
+                Enquiry sent — check your email for a confirmation.
+              </p>
+            )}
+            {submitStatus === "error" && (
+              <p className="text-sm font-body text-red-400 tracking-wide">
+                {errorMessage}
+              </p>
+            )}
             <button
               type="submit"
-              className="group inline-flex items-center gap-2.5 px-8 py-3 bg-amber hover:bg-amber-light text-charcoal font-heading font-semibold text-xs tracking-[0.2em] uppercase rounded-full transition-all duration-300"
+              disabled={submitStatus === "loading" || submitStatus === "success"}
+              className="group inline-flex items-center gap-2.5 px-8 py-3 bg-minted-grey hover:bg-deep-green text-light-grey font-heading font-semibold text-xs tracking-[0.2em] uppercase rounded-full transition-all duration-300 border border-minted-grey hover:border-light-grey/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-minted-grey disabled:hover:border-minted-grey"
               data-hover
               data-cursor-text="Send"
             >
-              Send Enquiry
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 16 16"
-                fill="none"
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              >
-                <path
-                  d="M3 8h10M9 4l4 4-4 4"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              {submitStatus === "loading" ? "Sending..." : "Send Enquiry"}
+              {submitStatus !== "loading" && (
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
             </button>
           </div>
         </form>
 
         {/* ── Divider ── */}
-        <hr className="border-beige/8 my-10" />
+        <hr className="border-light-grey/8 my-10" />
 
         {/* ── Bottom bar ── */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
@@ -305,7 +392,7 @@ export default function Footer() {
               href={BRAND.contact.facebook}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-beige/40 hover:text-amber transition-colors duration-300"
+              className="text-light-grey/40 hover:text-minted-grey transition-colors duration-300"
               data-hover
               aria-label="Facebook"
             >
@@ -315,7 +402,7 @@ export default function Footer() {
               href={BRAND.contact.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-beige/40 hover:text-amber transition-colors duration-300"
+              className="text-light-grey/40 hover:text-minted-grey transition-colors duration-300"
               data-hover
               aria-label="Instagram"
             >
@@ -325,14 +412,14 @@ export default function Footer() {
               href={BRAND.contact.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-beige/40 hover:text-amber transition-colors duration-300"
+              className="text-light-grey/40 hover:text-minted-grey transition-colors duration-300"
               data-hover
               aria-label="LinkedIn"
             >
               <Linkedin className="w-4 h-4" />
             </a>
           </div>
-          <span className="text-beige/25 text-xs tracking-wider">
+          <span className="text-light-grey/25 text-xs tracking-wider">
             &copy; {new Date().getFullYear()} Eterna Builds. All rights reserved.
           </span>
         </div>

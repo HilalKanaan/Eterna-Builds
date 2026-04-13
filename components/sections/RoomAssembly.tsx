@@ -120,17 +120,17 @@ export default function RoomAssembly() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-forest overflow-hidden"
+      className="relative bg-deep-green overflow-hidden"
       id="process"
     >
       {/* Section Header */}
       <div className="pt-24 pb-8 md:pb-0 md:absolute md:top-12 md:left-12 z-20">
-        <span className="text-xs tracking-[0.35em] uppercase text-amber font-heading px-6 md:px-0">
+        <span className="text-xs tracking-[0.35em] uppercase text-minted-grey font-heading px-6 md:px-0">
           Our Process
         </span>
         <div className="overflow-hidden">
           <h2
-            className="process-title font-heading font-bold text-beige mt-3 px-6 md:px-0"
+            className="process-title font-heading font-bold text-light-grey mt-3 px-6 md:px-0"
             style={{
               fontSize: "clamp(2rem, 4vw, 3.5rem)",
               perspective: "400px",
@@ -154,8 +154,8 @@ export default function RoomAssembly() {
         />
 
         {/* Gradient overlays for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-forest/60 via-transparent to-forest/70 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-forest/40 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-deep-green/60 via-transparent to-deep-green/70 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-deep-green/40 via-transparent to-transparent pointer-events-none" />
 
         {/* Phase Text Overlays */}
         <div className="hidden md:block absolute bottom-24 left-12 z-10">
@@ -168,11 +168,11 @@ export default function RoomAssembly() {
               className="absolute bottom-0 left-0"
               style={{ opacity: 0, willChange: "transform, opacity" }}
             >
-              <span className="text-xs tracking-[0.35em] uppercase text-amber font-heading block mb-2">
+              <span className="text-xs tracking-[0.35em] uppercase text-minted-grey font-heading block mb-2">
                 Step {i + 1} of {OVERLAY_PHASES.length}
               </span>
               <span
-                className="font-heading font-bold text-beige block"
+                className="font-heading font-bold text-light-grey block"
                 style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
               >
                 {phase.label}
@@ -185,14 +185,14 @@ export default function RoomAssembly() {
         <div className="hidden md:flex absolute bottom-24 right-12 z-10 items-center gap-4">
           <span
             ref={progressNumberRef}
-            className="font-heading text-beige/60 text-sm tracking-widest"
+            className="font-heading text-light-grey/60 text-sm tracking-widest"
           >
             0%
           </span>
-          <div className="w-24 h-[2px] bg-beige/10 rounded-full overflow-hidden">
+          <div className="w-24 h-[2px] bg-light-grey/10 rounded-full overflow-hidden">
             <div
               ref={progressRef}
-              className="h-full bg-amber origin-left"
+              className="h-full bg-minted-grey origin-left"
               style={{ transform: "scaleX(0)", willChange: "transform" }}
             />
           </div>
@@ -201,7 +201,7 @@ export default function RoomAssembly() {
         {/* Background Decorative Text */}
         <div className="hidden md:block absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <p
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-heading font-bold text-beige/[0.03] select-none"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-heading font-bold text-light-grey/[0.03] select-none"
             style={{ fontSize: "clamp(8rem, 18vw, 20rem)" }}
           >
             Built to Last

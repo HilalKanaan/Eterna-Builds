@@ -18,7 +18,7 @@ interface ServiceDrawerProps {
   title: string;
   items: ServiceItem[];
   id?: string;
-  /** "dark" uses charcoal bg, "forest" uses forest bg */
+  /** "dark" uses charcoal bg, "forest" uses deep-green bg */
   theme?: "dark" | "forest";
   /** Scroll in opposite direction — slider starts at end and moves right */
   reverse?: boolean;
@@ -36,13 +36,12 @@ export default function ServiceDrawer({
   const sliderRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
 
-  const bgClass = theme === "forest" ? "bg-forest" : "bg-charcoal";
-  const titleColor = theme === "forest" ? "text-beige" : "text-beige";
-  const progressBg = "bg-beige/10";
+  const bgClass = theme === "forest" ? "bg-deep-green" : "bg-charcoal";
+  const progressBg = "bg-light-grey/10";
 
   const cardGradient =
     theme === "forest"
-      ? "from-forest-light/80 to-forest"
+      ? "from-[#1a4540]/90 to-deep-green"
       : "from-[#2a2a2a] to-charcoal";
 
   useGSAP(
@@ -188,12 +187,12 @@ export default function ServiceDrawer({
     >
       {/* Section Header */}
       <div className="pt-24 md:pt-0 md:absolute md:top-12 md:left-12 z-20">
-        <span className="text-xs tracking-[0.35em] uppercase text-amber font-heading px-6 md:px-0">
+        <span className="text-xs tracking-[0.35em] uppercase text-minted-grey font-heading px-6 md:px-0">
           {label}
         </span>
         <div className="overflow-hidden">
           <h2
-            className={`drawer-title font-heading font-bold ${titleColor} mt-3 px-6 md:px-0`}
+            className="drawer-title font-heading font-bold text-light-grey mt-3 px-6 md:px-0"
             style={{
               fontSize: "clamp(2rem, 4vw, 3.5rem)",
               perspective: "400px",
@@ -222,11 +221,11 @@ export default function ServiceDrawer({
             <TiltCard className="service-card-inner relative overflow-hidden rounded-lg aspect-[3/4] md:aspect-[4/5]">
               <div
                 className={`service-card-reveal absolute inset-0 bg-gradient-to-br ${cardGradient} p-8 flex flex-col justify-between`}
-                style={{ border: "1px solid rgba(200,164,92,0.08)" }}
+                style={{ border: "1px solid rgba(72,125,71,0.10)" }}
               >
                 {/* Large decorative number */}
                 <span
-                  className="font-heading font-bold text-amber/15 select-none leading-none"
+                  className="font-heading font-bold text-minted-grey/15 select-none leading-none"
                   style={{ fontSize: "clamp(6rem, 12vw, 10rem)" }}
                 >
                   {item.number}
@@ -234,21 +233,21 @@ export default function ServiceDrawer({
 
                 {/* Content block */}
                 <div>
-                  <span className="text-xs tracking-[0.3em] uppercase text-amber font-heading mb-3 block">
+                  <span className="text-xs tracking-[0.3em] uppercase text-minted-grey font-heading mb-3 block">
                     {item.tag}
                   </span>
                   <h3
-                    className="font-heading font-bold text-beige leading-tight mb-3"
+                    className="font-heading font-bold text-light-grey leading-tight mb-3"
                     style={{ fontSize: "clamp(1.4rem, 2.2vw, 2rem)" }}
                   >
                     {item.title}
                   </h3>
-                  <p className="text-beige/50 text-sm leading-relaxed">
+                  <p className="text-light-grey/50 text-sm leading-relaxed">
                     {item.description}
                   </p>
-                  {/* Amber accent line */}
+                  {/* Accent line */}
                   <div
-                    className="mt-5 h-[2px] bg-amber"
+                    className="mt-5 h-[2px] bg-minted-grey"
                     style={{ width: "2rem" }}
                   />
                 </div>
@@ -266,7 +265,7 @@ export default function ServiceDrawer({
         <div className={`h-[2px] ${progressBg} rounded-full overflow-hidden`}>
           <div
             ref={progressRef}
-            className="h-full bg-amber origin-left"
+            className="h-full bg-minted-grey origin-left"
             style={{ transform: "scaleX(0)", willChange: "transform" }}
           />
         </div>

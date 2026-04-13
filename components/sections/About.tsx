@@ -126,7 +126,7 @@ export default function About() {
       return (
         <span
           key={index}
-          className="about-word inline-block mr-[0.3em] italic text-amber cursor-pointer"
+          className="about-word inline-block mr-[0.3em] italic text-minted-grey cursor-pointer"
           data-hover
           onMouseEnter={(e) =>
             handleKeywordHover(e, "/images/bold-preview.jpg", true)
@@ -144,7 +144,7 @@ export default function About() {
       return (
         <span
           key={index}
-          className="about-word inline-block mr-[0.3em] italic text-amber cursor-pointer"
+          className="about-word inline-block mr-[0.3em] italic text-minted-grey cursor-pointer"
           data-hover
           onMouseEnter={(e) =>
             handleKeywordHover(e, "/images/timeless-preview.jpg", true)
@@ -175,24 +175,24 @@ export default function About() {
   return (
     <section
       ref={sectionRef}
-      className="relative z-10 bg-forest text-beige"
+      className="relative z-10 bg-deep-green text-light-grey"
       id="about"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-40">
         {/* Stats */}
         <div
           ref={statsRef}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12 mb-12 border-b border-beige/10"
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12 mb-12 border-b border-light-grey/10"
         >
           {stats.map((stat, i) => (
             <div key={i}>
-              <div className="font-heading text-amber mb-2" style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)" }}>
+              <div className="font-heading text-minted-grey mb-2" style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)" }}>
                 <span className="stat-number" data-value={stat.value}>
                   0
                 </span>
                 {stat.suffix}
               </div>
-              <span className="text-beige/50 text-sm tracking-wider uppercase">
+              <span className="text-light-grey/50 text-sm tracking-wider uppercase">
                 {stat.label}
               </span>
             </div>
@@ -200,7 +200,7 @@ export default function About() {
         </div>
 
         {/* Section Label */}
-        <span className="inline-block text-xs tracking-[0.35em] uppercase text-amber mb-12 font-heading">
+        <span className="inline-block text-xs tracking-[0.35em] uppercase text-minted-grey mb-12 font-heading">
           Our Philosophy
         </span>
 
@@ -218,13 +218,13 @@ export default function About() {
           ref={descRef}
           className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16"
         >
-          <p className="desc-col text-beige/70 text-lg leading-relaxed">
+          <p className="desc-col text-light-grey/70 text-lg leading-relaxed">
             At Eterna Builds, we believe that spaces should resonate with the
             people who inhabit them. Our design philosophy merges architectural
             precision with an intimate understanding of how people live, work,
             and feel within their environments.
           </p>
-          <p className="desc-col text-beige/70 text-lg leading-relaxed">
+          <p className="desc-col text-light-grey/70 text-lg leading-relaxed">
             With roots in Lebanon and a growing presence in Saudi Arabia, we
             bring a unique Mediterranean sensibility to the Middle East&apos;s
             most ambitious residential and commercial projects.

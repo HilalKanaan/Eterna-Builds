@@ -65,7 +65,7 @@ export default function MagneticButton({
   return (
     <button
       ref={buttonRef}
-      className={`relative inline-flex items-center justify-center px-6 py-4 sm:px-10 sm:py-5 text-base sm:text-lg font-heading tracking-wider uppercase border-2 border-amber text-amber transition-colors duration-300 hover:bg-amber hover:text-charcoal ${className}`}
+      className={`relative inline-flex items-center justify-center px-6 py-4 sm:px-10 sm:py-5 text-base sm:text-lg font-heading tracking-wider uppercase border-2 border-minted-grey text-minted-grey transition-colors duration-300 hover:bg-minted-grey hover:text-light-grey ${className}`}
       data-hover
     >
       {children}

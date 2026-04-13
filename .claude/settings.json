@@ -6,7 +6,12 @@
       "Bash(winget install:*)",
       "Bash(export PATH=\"/c/Program Files/GitHub CLI:$PATH:/c/Program Files \\(x86\\)/GitHub CLI\")",
       "Bash(gh --version)",
-      "Bash(gh repo:*)"
+      "Bash(gh repo:*)",
+      "Bash(npx vercel:*)",
+      "Bash(ffprobe -v quiet -print_format json -show_format -show_streams \"/c/Users/hilal/Downloads/Room Assembly.mp4\")",
+      "Bash(powershell -command 'Add-Type -AssemblyName System.Windows.Forms; $s = New-Object -ComObject Shell.Application; $f = $s.NameSpace\\('\\\\''C:\\\\Users\\\\hilal\\\\Downloads'\\\\''\\); $i = $f.ParseName\\('\\\\''Room Assembly.mp4'\\\\''\\); Write-Host '\\\\''Duration:'\\\\'' $f.GetDetailsOf\\($i, 27\\); Write-Host '\\\\''Dimensions:'\\\\'' $f.GetDetailsOf\\($i, 316\\); Write-Host '\\\\''Frame rate:'\\\\'' $f.GetDetailsOf\\($i, 315\\); Write-Host '\\\\''Bitrate:'\\\\'' $f.GetDetailsOf\\($i, 320\\)')",
+      "Bash(where ffmpeg:*)",
+      "Bash(powershell -command \"Get-Command ffmpeg -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source; if \\(-not \\\\$?\\) { Write-Host 'not found yet' }\")"
     ]
   }
 }

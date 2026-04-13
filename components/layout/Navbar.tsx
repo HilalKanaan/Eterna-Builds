@@ -24,14 +24,14 @@ export default function Navbar() {
       start: "top 80%",
       onEnter: () => {
         gsap.to(navRef.current, {
-          backgroundColor: "rgba(26, 26, 26, 0.92)",
+          backgroundColor: "rgba(20, 53, 49, 0.92)",
           backdropFilter: "blur(12px)",
           duration: 0.4,
         });
       },
       onLeaveBack: () => {
         gsap.to(navRef.current, {
-          backgroundColor: "rgba(26, 26, 26, 0)",
+          backgroundColor: "rgba(20, 53, 49, 0)",
           backdropFilter: "blur(0px)",
           duration: 0.4,
         });
@@ -83,7 +83,7 @@ export default function Navbar() {
       <nav
         ref={navRef}
         className="fixed top-0 left-0 right-0 z-50 transition-colors"
-        style={{ backgroundColor: "rgba(26, 26, 26, 0)", willChange: "backdrop-filter, background-color" }}
+        style={{ backgroundColor: "rgba(20, 53, 49, 0)", willChange: "backdrop-filter, background-color" }}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-12 py-5">
           {/* Logo */}
@@ -112,7 +112,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-beige/70 hover:text-amber text-base font-medium tracking-[0.15em] uppercase font-heading transition-colors duration-300"
+                className="text-light-grey/70 hover:text-minted-grey text-base font-medium tracking-[0.15em] uppercase font-heading transition-colors duration-300"
                 data-hover
                 data-cursor-text="Explore"
                 onClick={(e) => {
@@ -127,7 +127,7 @@ export default function Navbar() {
             {/* Download Company Profile CTA */}
             <a
               href="#"
-              className="inline-flex items-center gap-2 bg-amber hover:bg-amber-light text-charcoal font-heading font-semibold text-sm tracking-wider uppercase rounded-full px-5 py-2.5 transition-colors duration-300"
+              className="inline-flex items-center gap-2 bg-minted-grey hover:bg-deep-green text-light-grey font-heading font-semibold text-sm tracking-wider uppercase rounded-full px-5 py-2.5 transition-colors duration-300"
               data-hover
               data-cursor-text="Download"
             >
@@ -146,17 +146,17 @@ export default function Navbar() {
             aria-label="Toggle menu"
           >
             <span
-              className={`block w-6 h-[2px] bg-beige transition-transform duration-300 ${
+              className={`block w-6 h-[2px] bg-light-grey transition-transform duration-300 ${
                 menuOpen ? "rotate-45 translate-y-[5px]" : ""
               }`}
             />
             <span
-              className={`block w-6 h-[2px] bg-beige transition-opacity duration-300 ${
+              className={`block w-6 h-[2px] bg-light-grey transition-opacity duration-300 ${
                 menuOpen ? "opacity-0" : ""
               }`}
             />
             <span
-              className={`block w-6 h-[2px] bg-beige transition-transform duration-300 ${
+              className={`block w-6 h-[2px] bg-light-grey transition-transform duration-300 ${
                 menuOpen ? "-rotate-45 -translate-y-[5px]" : ""
               }`}
             />
@@ -167,14 +167,14 @@ export default function Navbar() {
       {/* Mobile Menu Overlay */}
       <div
         ref={menuRef}
-        className="fixed inset-0 z-40 bg-charcoal flex flex-col items-center justify-center gap-8"
+        className="fixed inset-0 z-40 bg-deep-green flex flex-col items-center justify-center gap-8"
         style={{ clipPath: "inset(0% 0% 100% 0%)" }}
       >
         {NAV_LINKS.map((link) => (
           <div key={link.href} className="overflow-hidden">
             <a
               href={link.href}
-              className="menu-link block font-heading font-semibold text-beige text-5xl tracking-[0.15em] uppercase hover:text-amber transition-colors"
+              className="menu-link block font-heading font-semibold text-light-grey text-5xl tracking-[0.15em] uppercase hover:text-minted-grey transition-colors"
               data-hover
               onClick={(e) => {
                 e.preventDefault();
@@ -190,7 +190,7 @@ export default function Navbar() {
         <div className="overflow-hidden mt-4">
           <a
             href="#"
-            className="menu-link inline-flex items-center gap-3 bg-amber hover:bg-amber-light text-charcoal font-heading font-semibold text-lg tracking-wider uppercase rounded-full px-8 py-3.5 transition-colors duration-300"
+            className="menu-link inline-flex items-center gap-3 bg-minted-grey hover:bg-deep-green text-light-grey font-heading font-semibold text-lg tracking-wider uppercase rounded-full px-8 py-3.5 transition-colors duration-300"
             data-hover
           >
             <svg width="20" height="20" viewBox="0 0 16 16" fill="none" className="shrink-0">

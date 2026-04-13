@@ -47,6 +47,52 @@ export default function Contact() {
 
   const [focused, setFocused] = useState<string | null>(null);
 
+  type SubmitStatus = "idle" | "loading" | "success" | "error";
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (
+      !form.name.trim() ||
+      !form.email.trim() ||
+      !form.phone.trim() ||
+      !form.country ||
+      !form.projectType ||
+      form.services.length === 0
+    ) {
+      setErrorMessage("Please fill in all fields and select at least one service.");
+      setSubmitStatus("error");
+      return;
+    }
+
+    setSubmitStatus("loading");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const json = await res.json();
+
+      if (!res.ok) {
+        setErrorMessage(json.error ?? "Something went wrong. Please try again.");
+        setSubmitStatus("error");
+        return;
+      }
+
+      setSubmitStatus("success");
+      setForm({ name: "", email: "", phone: "", country: "", projectType: "", services: [] });
+    } catch {
+      setErrorMessage("Network error. Please check your connection and try again.");
+      setSubmitStatus("error");
+    }
+  };
+
   const toggleService = (id: string) => {
     setForm((prev) => ({
       ...prev,
@@ -118,21 +164,21 @@ export default function Contact() {
     "w-full bg-transparent border-b pb-3 pt-1 font-body text-base outline-none transition-colors duration-300 text-charcoal placeholder-charcoal/25";
 
   const inputBorder = (field: string) =>
-    focused === field ? "border-forest" : "border-charcoal/15";
+    focused === field ? "border-deep-green" : "border-charcoal/15";
 
   const pillBase =
     "px-5 py-2.5 rounded-full border text-sm font-heading font-medium tracking-wide transition-all duration-300 cursor-pointer select-none";
 
   const pillInactive =
-    "border-charcoal/20 text-charcoal/55 hover:border-forest/50 hover:text-forest";
+    "border-charcoal/20 text-charcoal/55 hover:border-deep-green/50 hover:text-deep-green";
 
-  const pillActive = "border-forest bg-forest text-beige shadow-sm";
-  const chipActive = "border-amber bg-amber text-charcoal shadow-sm";
+  const pillActive = "border-deep-green bg-deep-green text-light-grey shadow-sm";
+  const chipActive = "border-minted-grey bg-minted-grey text-light-grey shadow-sm";
 
   return (
     <section
       ref={sectionRef}
-      className="relative bg-cream overflow-hidden"
+      className="relative bg-light-grey overflow-hidden"
       id="contact"
     >
       {/* Ghost watermark */}
@@ -150,7 +196,7 @@ export default function Contact() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-28 md:py-44">
         {/* Section label */}
-        <span className="contact-left inline-block text-xs tracking-[0.35em] uppercase text-amber font-heading mb-16">
+        <span className="contact-left inline-block text-xs tracking-[0.35em] uppercase text-minted-grey font-heading mb-16">
           Get In Touch
         </span>
 
@@ -168,7 +214,7 @@ export default function Contact() {
               <span className="contact-line block overflow-hidden text-charcoal">
                 Let&apos;s Start
               </span>
-              <span className="contact-line block overflow-hidden italic text-amber">
+              <span className="contact-line block overflow-hidden italic text-minted-grey">
                 Your Project
               </span>
             </h2>
@@ -181,7 +227,7 @@ export default function Contact() {
             <div className="contact-left pt-8 border-t border-charcoal/10 flex flex-col gap-7">
               {/* Lebanon */}
               <div>
-                <p className="text-[10px] tracking-[0.35em] uppercase text-amber font-heading mb-1.5">
+                <p className="text-[10px] tracking-[0.35em] uppercase text-minted-grey font-heading mb-1.5">
                   Lebanon
                 </p>
                 <a
@@ -194,7 +240,7 @@ export default function Contact() {
               </div>
               {/* Saudi Arabia */}
               <div>
-                <p className="text-[10px] tracking-[0.35em] uppercase text-amber font-heading mb-1.5">
+                <p className="text-[10px] tracking-[0.35em] uppercase text-minted-grey font-heading mb-1.5">
                   Saudi Arabia
                 </p>
                 <a
@@ -210,7 +256,7 @@ export default function Contact() {
 
           {/* ── RIGHT — Form ── */}
           <form
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handleSubmit}
             className="flex flex-col gap-10"
           >
             {/* ─ Personal Info ─ */}
@@ -342,7 +388,7 @@ export default function Contact() {
                       }`}
                     >
                       {active && (
-                        <span className="inline-flex items-center justify-center w-4 h-4 mr-1.5 rounded-full bg-charcoal/15 text-[9px] font-bold">
+                        <span className="inline-flex items-center justify-center w-4 h-4 mr-1.5 rounded-full bg-light-grey/20 text-[9px] font-bold">
                           ✓
                         </span>
                       )}
@@ -357,27 +403,42 @@ export default function Contact() {
             <div className="contact-field pt-2">
               <button
                 type="submit"
-                className="group inline-flex items-center gap-3 px-10 py-4 bg-forest text-beige font-heading font-semibold text-sm tracking-[0.2em] uppercase rounded-full transition-all duration-300 hover:bg-forest-light hover:gap-4"
+                disabled={submitStatus === "loading" || submitStatus === "success"}
+                className="group inline-flex items-center gap-3 px-10 py-4 bg-deep-green text-light-grey font-heading font-semibold text-sm tracking-[0.2em] uppercase rounded-full transition-all duration-300 hover:bg-minted-grey hover:gap-4 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:gap-3 disabled:hover:bg-deep-green"
                 data-hover
                 data-cursor-text="Send"
               >
-                Send Enquiry
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                >
-                  <path
-                    d="M3 8h10M9 4l4 4-4 4"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                {submitStatus === "loading" ? "Sending..." : "Send Enquiry"}
+                {submitStatus !== "loading" && (
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  >
+                    <path
+                      d="M3 8h10M9 4l4 4-4 4"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
               </button>
+
+              {submitStatus === "success" && (
+                <p className="mt-5 text-sm font-body text-deep-green tracking-wide leading-relaxed">
+                  Your enquiry has been sent — check your email for a confirmation. We&apos;ll be in touch shortly.
+                </p>
+              )}
+
+              {submitStatus === "error" && (
+                <p className="mt-5 text-sm font-body text-red-500 tracking-wide">
+                  {errorMessage}
+                </p>
+              )}
             </div>
           </form>
         </div>

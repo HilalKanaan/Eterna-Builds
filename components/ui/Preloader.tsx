@@ -68,7 +68,7 @@ export default function Preloader() {
     tl.to(
       paths,
       {
-        fill: "#f5f0e8",
+        fill: "#f7f9f9",
         stroke: "transparent",
         duration: 0.4,
         stagger: 0.03,
@@ -165,56 +165,56 @@ export default function Preloader() {
           {/* 3D Building block — top face */}
           <path
             d="M40 50 L100 20 L200 20 L140 50 Z"
-            stroke="#f5f0e8"
+            stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"
           />
           {/* Front face - Floor 1 */}
           <path
             d="M40 50 L140 50 L140 95 L40 95 Z"
-            stroke="#f5f0e8"
+            stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"
           />
           {/* Side face - Floor 1 */}
           <path
             d="M140 50 L200 20 L200 65 L140 95 Z"
-            stroke="#f5f0e8"
+            stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"
           />
           {/* Front face - Floor 2 */}
           <path
             d="M40 105 L140 105 L140 150 L40 150 Z"
-            stroke="#f5f0e8"
+            stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"
           />
           {/* Side face - Floor 2 */}
           <path
             d="M140 105 L200 75 L200 120 L140 150 Z"
-            stroke="#f5f0e8"
+            stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"
           />
           {/* Front face - Floor 3 */}
           <path
             d="M40 160 L140 160 L140 210 L40 210 Z"
-            stroke="#f5f0e8"
+            stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"
           />
           {/* Side face - Floor 3 */}
           <path
             d="M140 160 L200 130 L200 180 L140 210 Z"
-            stroke="#f5f0e8"
+            stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"
           />
           {/* Bottom face */}
           <path
             d="M40 210 L140 210 L200 180 L100 180 Z"
-            stroke="#f5f0e8"
+            stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"
           />
@@ -223,7 +223,7 @@ export default function Preloader() {
         {/* Counter */}
         <span
           ref={counterRef}
-          className="font-heading text-beige/60 leading-none tracking-wider font-light"
+          className="font-heading text-light-grey/60 leading-none tracking-wider font-light"
           style={{ fontSize: "clamp(3rem, 10vw, 7rem)" }}
         >
           000
@@ -232,7 +232,7 @@ export default function Preloader() {
         {/* Brand name */}
         <span
           ref={brandRef}
-          className="absolute bottom-12 text-beige/50 text-xs tracking-[0.4em] uppercase font-heading"
+          className="absolute bottom-12 text-light-grey/50 text-xs tracking-[0.4em] uppercase font-heading"
         >
           Eterna Builds
         </span>

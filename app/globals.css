@@ -1,26 +1,19 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Brand Colors */
-  --color-forest: #1a3a2a;
-  --color-forest-light: #2a5a3a;
-  --color-beige: #f5f0e8;
-  --color-cream: #faf7f2;
-  --color-wood: #d4b896;
+  /* Brand Colors — Eterna Builds Brand Guide 2025 */
+  --color-deep-green: #143531;
+  --color-minted-grey: #487d47;
+  --color-deep-grey: #cfcdce;
+  --color-light-grey: #f7f9f9;
   --color-charcoal: #1a1a1a;
-  --color-amber: #c8a45c;
-  --color-amber-light: #d4b870;
 
   /* Typography */
-  --font-heading: var(--font-montserrat), "Montserrat", sans-serif;
-  --font-body: var(--font-inter), "Inter", sans-serif;
+  --font-heading: "Bahnschrift", "DIN Alternate", "Franklin Gothic Medium", sans-serif-condensed, sans-serif;
+  --font-body: var(--font-poppins), "Poppins", sans-serif;
 }
 
 /* Base */
-* {
-  cursor: none;
-}
-
 html {
   scroll-behavior: auto;
   overflow-x: hidden;
@@ -28,7 +21,7 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: #faf7f2;
+  background-color: #f7f9f9;
   color: #1a1a1a;
   overflow-x: hidden;
 }
@@ -47,8 +40,8 @@ h6 {
 }
 
 ::selection {
-  background-color: #1a3a2a;
-  color: #f5f0e8;
+  background-color: #143531;
+  color: #f7f9f9;
 }
 
 /* Smooth scrollbar styling */
@@ -57,11 +50,11 @@ h6 {
 }
 
 ::-webkit-scrollbar-track {
-  background: #faf7f2;
+  background: #f7f9f9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1a3a2a;
+  background: #143531;
   border-radius: 3px;
 }
 
