@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
@@ -113,7 +113,7 @@ export default function About() {
   };
 
   const handleKeywordMouseMove = (e: React.MouseEvent) => {
-    // Use quickTo refs — no React re-render
+    // Use quickTo refs â€” no React re-render
     previewXTo.current?.(e.clientX + 20);
     previewYTo.current?.(e.clientY - 100);
   };
@@ -126,7 +126,7 @@ export default function About() {
       return (
         <span
           key={index}
-          className="about-word inline-block mr-[0.3em] italic text-minted-grey cursor-pointer"
+          className="about-word inline-block mr-[0.3em] italic text-warm-gold cursor-pointer"
           data-hover
           onMouseEnter={(e) =>
             handleKeywordHover(e, "/images/bold-preview.jpg", true)
@@ -144,7 +144,7 @@ export default function About() {
       return (
         <span
           key={index}
-          className="about-word inline-block mr-[0.3em] italic text-minted-grey cursor-pointer"
+          className="about-word inline-block mr-[0.3em] italic text-warm-gold cursor-pointer"
           data-hover
           onMouseEnter={(e) =>
             handleKeywordHover(e, "/images/timeless-preview.jpg", true)
@@ -166,10 +166,9 @@ export default function About() {
   };
 
   const stats = [
-    { value: 150, suffix: "+", label: "Projects Delivered" },
+    { value: 50, suffix: "+", label: "Projects Delivered" },
     { value: 2, suffix: "", label: "Countries" },
     { value: 12, suffix: "+", label: "Years of Excellence" },
-    { value: 40, suffix: "+", label: "Design Awards" },
   ];
 
   return (
@@ -182,11 +181,11 @@ export default function About() {
         {/* Stats */}
         <div
           ref={statsRef}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12 mb-12 border-b border-light-grey/10"
+          className="grid grid-cols-3 gap-8 pb-12 mb-12 border-b border-light-grey/10"
         >
           {stats.map((stat, i) => (
             <div key={i}>
-              <div className="font-heading text-minted-grey mb-2" style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)" }}>
+              <div className="font-heading text-warm-gold mb-2" style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)" }}>
                 <span className="stat-number" data-value={stat.value}>
                   0
                 </span>
@@ -200,7 +199,7 @@ export default function About() {
         </div>
 
         {/* Section Label */}
-        <span className="inline-block text-xs tracking-[0.35em] uppercase text-minted-grey mb-12 font-heading">
+        <span className="inline-block text-xs tracking-[0.35em] uppercase text-warm-gold mb-12 font-heading">
           Our Philosophy
         </span>
 
@@ -232,7 +231,7 @@ export default function About() {
         </div>
       </div>
 
-      {/* Hover Preview Image — positioned via GSAP quickTo (no re-renders) */}
+      {/* Hover Preview Image â€” positioned via GSAP quickTo (no re-renders) */}
       <div
         ref={previewRef}
         className="fixed top-0 left-0 pointer-events-none z-50"

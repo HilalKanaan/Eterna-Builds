@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
@@ -125,7 +125,7 @@ export default function RoomAssembly() {
     >
       {/* Section Header */}
       <div className="pt-24 pb-8 md:pb-0 md:absolute md:top-12 md:left-12 z-20">
-        <span className="text-xs tracking-[0.35em] uppercase text-minted-grey font-heading px-6 md:px-0">
+        <span className="text-xs tracking-[0.35em] uppercase text-warm-gold font-heading px-6 md:px-0">
           Our Process
         </span>
         <div className="overflow-hidden">
@@ -168,7 +168,7 @@ export default function RoomAssembly() {
               className="absolute bottom-0 left-0"
               style={{ opacity: 0, willChange: "transform, opacity" }}
             >
-              <span className="text-xs tracking-[0.35em] uppercase text-minted-grey font-heading block mb-2">
+              <span className="text-xs tracking-[0.35em] uppercase text-warm-gold font-heading block mb-2">
                 Step {i + 1} of {OVERLAY_PHASES.length}
               </span>
               <span
@@ -192,7 +192,7 @@ export default function RoomAssembly() {
           <div className="w-24 h-[2px] bg-light-grey/10 rounded-full overflow-hidden">
             <div
               ref={progressRef}
-              className="h-full bg-minted-grey origin-left"
+              className="h-full bg-warm-gold origin-left"
               style={{ transform: "scaleX(0)", willChange: "transform" }}
             />
           </div>

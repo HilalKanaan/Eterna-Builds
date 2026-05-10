@@ -1,6 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { clamp } from "@/lib/utils";
 import { splitTextToChars } from "@/lib/splitText";
@@ -11,6 +12,7 @@ export interface ServiceItem {
   title: string;
   tag: string;
   description: string;
+  image?: string;
 }
 
 interface ServiceDrawerProps {
@@ -20,7 +22,7 @@ interface ServiceDrawerProps {
   id?: string;
   /** "dark" uses charcoal bg, "forest" uses deep-green bg */
   theme?: "dark" | "forest";
-  /** Scroll in opposite direction — slider starts at end and moves right */
+  /** Scroll in opposite direction â€” slider starts at end and moves right */
   reverse?: boolean;
 }
 
@@ -43,6 +45,11 @@ export default function ServiceDrawer({
     theme === "forest"
       ? "from-[#1a4540]/90 to-deep-green"
       : "from-[#2a2a2a] to-charcoal";
+
+  const overlayGradient =
+    theme === "forest"
+      ? "bg-gradient-to-b from-deep-green/10 via-deep-green/50 to-deep-green"
+      : "bg-gradient-to-b from-charcoal/10 via-charcoal/50 to-charcoal";
 
   useGSAP(
     () => {
@@ -187,7 +194,7 @@ export default function ServiceDrawer({
     >
       {/* Section Header */}
       <div className="pt-24 md:pt-0 md:absolute md:top-12 md:left-12 z-20">
-        <span className="text-xs tracking-[0.35em] uppercase text-minted-grey font-heading px-6 md:px-0">
+        <span className="text-xs tracking-[0.35em] uppercase text-warm-gold font-heading px-6 md:px-0">
           {label}
         </span>
         <div className="overflow-hidden">
@@ -220,36 +227,54 @@ export default function ServiceDrawer({
           >
             <TiltCard className="service-card-inner relative overflow-hidden rounded-lg aspect-[3/4] md:aspect-[4/5]">
               <div
-                className={`service-card-reveal absolute inset-0 bg-gradient-to-br ${cardGradient} p-8 flex flex-col justify-between`}
-                style={{ border: "1px solid rgba(72,125,71,0.10)" }}
+                className="service-card-reveal absolute inset-0"
+                style={{ border: "1px solid rgba(232,224,208,0.15)" }}
               >
-                {/* Large decorative number */}
-                <span
-                  className="font-heading font-bold text-minted-grey/15 select-none leading-none"
-                  style={{ fontSize: "clamp(6rem, 12vw, 10rem)" }}
-                >
-                  {item.number}
-                </span>
+                {/* Background */}
+                {item.image ? (
+                  <>
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 40vw"
+                    />
+                    <div className={`absolute inset-0 ${overlayGradient}`} />
+                  </>
+                ) : (
+                  <div className={`absolute inset-0 bg-gradient-to-br ${cardGradient}`} />
+                )}
 
-                {/* Content block */}
-                <div>
-                  <span className="text-xs tracking-[0.3em] uppercase text-minted-grey font-heading mb-3 block">
-                    {item.tag}
-                  </span>
-                  <h3
-                    className="font-heading font-bold text-light-grey leading-tight mb-3"
-                    style={{ fontSize: "clamp(1.4rem, 2.2vw, 2rem)" }}
+                {/* Content */}
+                <div className="absolute inset-0 p-8 flex flex-col justify-between">
+                  {/* Large decorative number */}
+                  <span
+                    className="font-heading font-bold text-stone-white/15 select-none leading-none relative z-10"
+                    style={{ fontSize: "clamp(6rem, 12vw, 10rem)" }}
                   >
-                    {item.title}
-                  </h3>
-                  <p className="text-light-grey/50 text-sm leading-relaxed">
-                    {item.description}
-                  </p>
-                  {/* Accent line */}
-                  <div
-                    className="mt-5 h-[2px] bg-minted-grey"
-                    style={{ width: "2rem" }}
-                  />
+                    {item.number}
+                  </span>
+
+                  {/* Content block */}
+                  <div className="relative z-10">
+                    <span className="text-xs tracking-[0.3em] uppercase text-warm-gold font-heading mb-3 block">
+                      {item.tag}
+                    </span>
+                    <h3
+                      className="font-heading font-bold text-light-grey leading-tight mb-3"
+                      style={{ fontSize: "clamp(1.4rem, 2.2vw, 2rem)" }}
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="text-light-grey/50 text-sm leading-relaxed">
+                      {item.description}
+                    </p>
+                    <div
+                      className="mt-5 h-[2px] bg-warm-gold"
+                      style={{ width: "2rem" }}
+                    />
+                  </div>
                 </div>
               </div>
             </TiltCard>
@@ -265,7 +290,7 @@ export default function ServiceDrawer({
         <div className={`h-[2px] ${progressBg} rounded-full overflow-hidden`}>
           <div
             ref={progressRef}
-            className="h-full bg-minted-grey origin-left"
+            className="h-full bg-warm-gold origin-left"
             style={{ transform: "scaleX(0)", willChange: "transform" }}
           />
         </div>

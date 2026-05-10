@@ -64,7 +64,7 @@ export default function CustomCursor() {
       gsap.to(cursor, {
         width: EXPANDED_SIZE,
         height: EXPANDED_SIZE,
-        borderColor: "#487d47",
+        borderColor: "#C4A35A",
         duration: 0.4,
         ease: "power3.out",
         overwrite: "auto",
@@ -149,7 +149,7 @@ export default function CustomCursor() {
       ) {
         gsap.to(cursor, {
           scale: 1.8,
-          borderColor: "#487d47",
+          borderColor: "#C4A35A",
           duration: 0.4,
           ease: "power2.out",
           overwrite: "auto",

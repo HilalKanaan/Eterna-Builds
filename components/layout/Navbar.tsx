@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState } from "react";
 import Image from "next/image";
@@ -6,12 +6,16 @@ import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { BRAND } from "@/lib/constants";
 
 const NAV_LINKS = [
-  { label: "Work", href: "#work" },
   { label: "About", href: "#about" },
+  { label: "Work", href: "#work" },
   { label: "Contact", href: "#contact" },
 ];
 
-export default function Navbar() {
+interface NavbarProps {
+  onOpenProfile: () => void;
+}
+
+export default function Navbar({ onOpenProfile }: NavbarProps) {
   const navRef = useRef<HTMLElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -101,7 +105,7 @@ export default function Navbar() {
               alt={BRAND.name}
               width={373}
               height={321}
-              className="h-8 w-auto md:h-10"
+              className="h-[3.9rem] w-auto md:h-[4.74rem]"
               style={{ filter: "brightness(0) invert(1)" }}
             />
           </a>
@@ -112,7 +116,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-light-grey/70 hover:text-minted-grey text-base font-medium tracking-[0.15em] uppercase font-heading transition-colors duration-300"
+                className="text-light-grey/70 hover:text-warm-gold text-base font-medium tracking-[0.15em] uppercase font-heading transition-colors duration-300"
                 data-hover
                 data-cursor-text="Explore"
                 onClick={(e) => {
@@ -127,9 +131,10 @@ export default function Navbar() {
             {/* Download Company Profile CTA */}
             <a
               href="#"
-              className="inline-flex items-center gap-2 bg-minted-grey hover:bg-deep-green text-light-grey font-heading font-semibold text-sm tracking-wider uppercase rounded-full px-5 py-2.5 transition-colors duration-300"
+              className="inline-flex items-center gap-2 bg-warm-gold hover:bg-deep-green text-light-grey font-heading font-semibold text-sm tracking-wider uppercase rounded-full px-5 py-2.5 transition-colors duration-300"
               data-hover
-              data-cursor-text="Download"
+              data-cursor-text="View"
+              onClick={(e) => { e.preventDefault(); onOpenProfile(); }}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
                 <path d="M8 2v8m0 0L5 7m3 3l3-3M3 13h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -174,7 +179,7 @@ export default function Navbar() {
           <div key={link.href} className="overflow-hidden">
             <a
               href={link.href}
-              className="menu-link block font-heading font-semibold text-light-grey text-5xl tracking-[0.15em] uppercase hover:text-minted-grey transition-colors"
+              className="menu-link block font-heading font-semibold text-light-grey text-5xl tracking-[0.15em] uppercase hover:text-warm-gold transition-colors"
               data-hover
               onClick={(e) => {
                 e.preventDefault();
@@ -190,8 +195,9 @@ export default function Navbar() {
         <div className="overflow-hidden mt-4">
           <a
             href="#"
-            className="menu-link inline-flex items-center gap-3 bg-minted-grey hover:bg-deep-green text-light-grey font-heading font-semibold text-lg tracking-wider uppercase rounded-full px-8 py-3.5 transition-colors duration-300"
+            className="menu-link inline-flex items-center gap-3 bg-warm-gold hover:bg-deep-green text-light-grey font-heading font-semibold text-lg tracking-wider uppercase rounded-full px-8 py-3.5 transition-colors duration-300"
             data-hover
+            onClick={(e) => { e.preventDefault(); tlRef.current?.reverse(); setMenuOpen(false); onOpenProfile(); }}
           >
             <svg width="20" height="20" viewBox="0 0 16 16" fill="none" className="shrink-0">
               <path d="M8 2v8m0 0L5 7m3 3l3-3M3 13h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

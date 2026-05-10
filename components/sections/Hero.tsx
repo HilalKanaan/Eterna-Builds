@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
@@ -63,7 +63,7 @@ export default function Hero() {
       const runAnimations = () => {
         const tl = gsap.timeline({ delay: 0.2 });
 
-        // Image reveal — GPU-composited scale + opacity
+        // Image reveal â€” GPU-composited scale + opacity
         gsap.set(bg, { willChange: "transform, opacity" });
         tl.fromTo(
           bg,
@@ -85,7 +85,7 @@ export default function Hero() {
           "-=0.6"
         );
 
-        // Character-level heading animation — Line 1
+        // Character-level heading animation â€” Line 1
         if (headingLine1Ref.current) {
           const chars1 = splitTextToChars(headingLine1Ref.current);
           tl.fromTo(
@@ -103,7 +103,7 @@ export default function Hero() {
           );
         }
 
-        // Character-level heading animation — Line 2
+        // Character-level heading animation â€” Line 2
         if (headingLine2Ref.current) {
           const chars2 = splitTextToChars(headingLine2Ref.current);
           tl.fromTo(
@@ -129,7 +129,7 @@ export default function Hero() {
           "-=0.5"
         );
 
-        // Scroll indicator — fade in, then set up fade-out on scroll after entrance completes
+        // Scroll indicator â€” fade in, then set up fade-out on scroll after entrance completes
         tl.fromTo(
           scrollIndicatorRef.current,
           { opacity: 0 },
@@ -208,7 +208,7 @@ export default function Hero() {
       id="home"
     >
       <div ref={overlayRef} className="relative h-full w-full" style={{ willChange: "transform, opacity" }}>
-        {/* Background — WebGL distortion or static fallback */}
+        {/* Background â€” WebGL distortion or static fallback */}
         <div ref={bgRef} className="absolute inset-0 scale-110">
           {supportsWebGL ? (
             <HeroDistortion
@@ -235,7 +235,7 @@ export default function Hero() {
           <div className="overflow-hidden mb-6">
             <span
               ref={subtitleRef}
-              className="inline-block text-sm tracking-[0.35em] uppercase text-minted-grey font-heading"
+              className="inline-block text-sm tracking-[0.35em] uppercase text-warm-gold font-heading"
             >
               Interior Design & Architecture
             </span>
@@ -253,7 +253,7 @@ export default function Hero() {
               <div ref={headingLine1Ref}>Spaces that</div>
             </div>
             <div className="overflow-hidden">
-              <div ref={headingLine2Ref} className="italic text-minted-grey">
+              <div ref={headingLine2Ref} className="italic text-warm-gold">
                 Understand you
               </div>
             </div>
@@ -276,9 +276,9 @@ export default function Hero() {
         >
           {/* Glowing pill badge */}
           <div className="relative">
-            <div className="absolute inset-0 bg-minted-grey/30 rounded-full blur-xl animate-pulse-soft" />
-            <div className="relative px-6 py-2.5 border border-minted-grey/50 rounded-full bg-minted-grey/10 backdrop-blur-sm">
-              <span className="text-minted-grey text-sm font-heading font-semibold tracking-[0.3em] uppercase">
+            <div className="absolute inset-0 bg-warm-gold/30 rounded-full blur-xl animate-pulse-soft" />
+            <div className="relative px-6 py-2.5 border border-warm-gold/50 rounded-full bg-warm-gold/10 backdrop-blur-sm">
+              <span className="text-warm-gold text-sm font-heading font-semibold tracking-[0.3em] uppercase">
                 Scroll down
               </span>
             </div>
@@ -286,13 +286,13 @@ export default function Hero() {
 
           {/* Animated chevrons */}
           <div className="flex flex-col items-center gap-1 animate-scroll-bounce">
-            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-minted-grey opacity-40">
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-warm-gold opacity-40">
               <path d="M1 1L10 8L19 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-minted-grey opacity-70">
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-warm-gold opacity-70">
               <path d="M1 1L10 8L19 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-minted-grey">
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-warm-gold">
               <path d="M1 1L10 8L19 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>

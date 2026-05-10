@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
@@ -159,7 +159,7 @@ export default function Contact() {
     { scope: sectionRef }
   );
 
-  /* ── Styling helpers ── */
+  /* â”€â”€ Styling helpers â”€â”€ */
   const inputBase =
     "w-full bg-transparent border-b pb-3 pt-1 font-body text-base outline-none transition-colors duration-300 text-charcoal placeholder-charcoal/25";
 
@@ -173,7 +173,7 @@ export default function Contact() {
     "border-charcoal/20 text-charcoal/55 hover:border-deep-green/50 hover:text-deep-green";
 
   const pillActive = "border-deep-green bg-deep-green text-light-grey shadow-sm";
-  const chipActive = "border-minted-grey bg-minted-grey text-light-grey shadow-sm";
+  const chipActive = "border-warm-gold bg-warm-gold text-light-grey shadow-sm";
 
   return (
     <section
@@ -196,12 +196,12 @@ export default function Contact() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-28 md:py-44">
         {/* Section label */}
-        <span className="contact-left inline-block text-xs tracking-[0.35em] uppercase text-minted-grey font-heading mb-16">
+        <span className="contact-left inline-block text-xs tracking-[0.35em] uppercase text-warm-gold font-heading mb-16">
           Get In Touch
         </span>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-16 lg:gap-32">
-          {/* ── LEFT — Intro & contact info ── */}
+          {/* â”€â”€ LEFT â€” Intro & contact info â”€â”€ */}
           <div className="lg:sticky lg:top-32 lg:self-start">
             <h2
               ref={headingRef}
@@ -214,7 +214,7 @@ export default function Contact() {
               <span className="contact-line block overflow-hidden text-charcoal">
                 Let&apos;s Start
               </span>
-              <span className="contact-line block overflow-hidden italic text-minted-grey">
+              <span className="contact-line block overflow-hidden italic text-warm-gold">
                 Your Project
               </span>
             </h2>
@@ -227,7 +227,7 @@ export default function Contact() {
             <div className="contact-left pt-8 border-t border-charcoal/10 flex flex-col gap-7">
               {/* Lebanon */}
               <div>
-                <p className="text-[10px] tracking-[0.35em] uppercase text-minted-grey font-heading mb-1.5">
+                <p className="text-[10px] tracking-[0.35em] uppercase text-warm-gold font-heading mb-1.5">
                   Lebanon
                 </p>
                 <a
@@ -240,7 +240,7 @@ export default function Contact() {
               </div>
               {/* Saudi Arabia */}
               <div>
-                <p className="text-[10px] tracking-[0.35em] uppercase text-minted-grey font-heading mb-1.5">
+                <p className="text-[10px] tracking-[0.35em] uppercase text-warm-gold font-heading mb-1.5">
                   Saudi Arabia
                 </p>
                 <a
@@ -254,12 +254,12 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* ── RIGHT — Form ── */}
+          {/* â”€â”€ RIGHT â€” Form â”€â”€ */}
           <form
             onSubmit={handleSubmit}
             className="flex flex-col gap-10"
           >
-            {/* ─ Personal Info ─ */}
+            {/* â”€ Personal Info â”€ */}
             <div className="contact-field grid grid-cols-1 gap-9">
               {/* Full Name */}
               <div>
@@ -319,7 +319,7 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* ─ Country ─ */}
+            {/* â”€ Country â”€ */}
             <div className="contact-field">
               <label className="text-[10px] tracking-[0.32em] uppercase font-heading text-charcoal/40 block mb-4">
                 Country
@@ -344,7 +344,7 @@ export default function Contact() {
             {/* Divider */}
             <hr className="contact-field border-charcoal/10" />
 
-            {/* ─ Project Type ─ */}
+            {/* â”€ Project Type â”€ */}
             <div className="contact-field">
               <label className="text-[10px] tracking-[0.32em] uppercase font-heading text-charcoal/40 block mb-4">
                 Type of Project
@@ -367,7 +367,7 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* ─ Services ─ */}
+            {/* â”€ Services â”€ */}
             <div className="contact-field">
               <label className="text-[10px] tracking-[0.32em] uppercase font-heading text-charcoal/40 block mb-1.5">
                 Services Required
@@ -399,12 +399,12 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* ─ Submit ─ */}
+            {/* â”€ Submit â”€ */}
             <div className="contact-field pt-2">
               <button
                 type="submit"
                 disabled={submitStatus === "loading" || submitStatus === "success"}
-                className="group inline-flex items-center gap-3 px-10 py-4 bg-deep-green text-light-grey font-heading font-semibold text-sm tracking-[0.2em] uppercase rounded-full transition-all duration-300 hover:bg-minted-grey hover:gap-4 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:gap-3 disabled:hover:bg-deep-green"
+                className="group inline-flex items-center gap-3 px-10 py-4 bg-deep-green text-light-grey font-heading font-semibold text-sm tracking-[0.2em] uppercase rounded-full transition-all duration-300 hover:bg-warm-gold hover:gap-4 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:gap-3 disabled:hover:bg-deep-green"
                 data-hover
                 data-cursor-text="Send"
               >
