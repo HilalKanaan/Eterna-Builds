@@ -48,13 +48,13 @@ const FRAGMENT_SHADER = `
     float b = texture2D(uTexture, displaced - rOffset).b;
     vec3 color = vec3(r, g, b);
 
-    // --- Warm terracotta spotlight near cursor ---
+    // --- Warm amber spotlight near cursor ---
     float warmZone = smoothstep(0.45, 0.0, dist) * uStrength;
-    color += vec3(0.14, 0.05, 0.0) * warmZone;
+    color += vec3(0.12, 0.06, -0.02) * warmZone;
 
-    // --- Rim highlight ring around displacement area (terracotta) ---
+    // --- Rim highlight ring around displacement area ---
     float ring = smoothstep(0.02, 0.0, abs(dist - radius * 0.6)) * uStrength * 0.08;
-    color += vec3(0.71, 0.42, 0.30) * ring;
+    color += vec3(0.78, 0.64, 0.36) * ring;
 
     gl_FragColor = vec4(color, 1.0);
   }
@@ -62,17 +62,11 @@ const FRAGMENT_SHADER = `
 
 interface HeroDistortionProps {
   imageSrc: string;
-  /** Fallback image used if imageSrc (e.g. a .webp) fails to decode. */
-  fallbackSrc?: string;
-  /** Called once the texture has loaded and the first frame is drawn. */
-  onReady?: () => void;
   className?: string;
 }
 
 export default function HeroDistortion({
   imageSrc,
-  fallbackSrc,
-  onReady,
   className = "",
 }: HeroDistortionProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -87,7 +81,6 @@ export default function HeroDistortion({
     const gl = canvas.getContext("webgl", {
       antialias: false,
       alpha: false,
-      powerPreference: "high-performance",
     });
     if (!gl) return;
 
@@ -151,7 +144,7 @@ export default function HeroDistortion({
     const uTime = gl.getUniformLocation(program, "uTime");
     const uStrength = gl.getUniformLocation(program, "uStrength");
 
-    // Placeholder 1x1 texture (charcoal) until the image decodes
+    // Load texture
     const texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texImage2D(
@@ -159,9 +152,7 @@ export default function HeroDistortion({
       new Uint8Array([26, 26, 26, 255])
     );
 
-    let textureReady = false;
     const img = new Image();
-    img.decoding = "async";
     img.crossOrigin = "anonymous";
     img.onload = () => {
       gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -170,29 +161,22 @@ export default function HeroDistortion({
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      textureReady = true;
-      onReady?.();
-    };
-    img.onerror = () => {
-      if (fallbackSrc && img.src !== fallbackSrc) img.src = fallbackSrc;
     };
     img.src = imageSrc;
 
-    // Size the drawing buffer to the display size (via ResizeObserver, not
-    // per-frame) capped at 2x DPR to avoid oversized buffers on retina.
+    // Resize
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio, 2);
-      const w = Math.round(canvas.clientWidth * dpr);
-      const h = Math.round(canvas.clientHeight * dpr);
-      if (w > 0 && h > 0 && (canvas.width !== w || canvas.height !== h)) {
+      const w = canvas.clientWidth * dpr;
+      const h = canvas.clientHeight * dpr;
+      if (canvas.width !== w || canvas.height !== h) {
         canvas.width = w;
         canvas.height = h;
         gl.viewport(0, 0, w, h);
       }
     };
     resize();
-    const ro = new ResizeObserver(resize);
-    ro.observe(canvas);
+    window.addEventListener("resize", resize);
 
     // Mouse tracking
     const handleMouseMove = (e: MouseEvent) => {
@@ -207,12 +191,10 @@ export default function HeroDistortion({
     canvas.addEventListener("mouseenter", handleMouseEnter);
     canvas.addEventListener("mouseleave", handleMouseLeave);
 
-    // Render loop — paused when the tab is hidden or the hero is offscreen.
+    // Render loop
     const startTime = performance.now();
-    let running = true;
 
     const render = () => {
-      if (!running) return;
       const time = (performance.now() - startTime) / 1000;
 
       // Smooth mouse lerp
@@ -224,62 +206,30 @@ export default function HeroDistortion({
       const s = strengthRef.current;
       s.current += (s.target - s.current) * 0.06;
 
-      if (textureReady) {
-        gl.uniform1i(uTexture, 0);
-        gl.uniform2f(uMouse, m.x, m.y);
-        gl.uniform1f(uTime, time);
-        gl.uniform1f(uStrength, s.current);
-        gl.drawArrays(gl.TRIANGLES, 0, 6);
-      }
-      rafRef.current = requestAnimationFrame(render);
-    };
+      resize();
+      gl.uniform1i(uTexture, 0);
+      gl.uniform2f(uMouse, m.x, m.y);
+      gl.uniform1f(uTime, time);
+      gl.uniform1f(uStrength, s.current);
 
-    const start = () => {
-      if (running && rafRef.current) return;
-      running = true;
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
       rafRef.current = requestAnimationFrame(render);
-    };
-    const stop = () => {
-      running = false;
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = 0;
     };
 
     rafRef.current = requestAnimationFrame(render);
 
-    // Pause when the tab is backgrounded
-    const handleVisibility = () => {
-      if (document.hidden) stop();
-      else start();
-    };
-    document.addEventListener("visibilitychange", handleVisibility);
-
-    // Pause when the hero scrolls out of view
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) start();
-        else stop();
-      },
-      { threshold: 0 }
-    );
-    io.observe(canvas);
-
     return () => {
-      stop();
-      ro.disconnect();
-      io.disconnect();
-      document.removeEventListener("visibilitychange", handleVisibility);
+      cancelAnimationFrame(rafRef.current);
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseenter", handleMouseEnter);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("resize", resize);
       gl.deleteProgram(program);
       gl.deleteShader(vertShader);
       gl.deleteShader(fragShader);
       gl.deleteTexture(texture);
-      gl.deleteBuffer(posBuffer);
-      gl.deleteBuffer(uvBuffer);
     };
-  }, [imageSrc, fallbackSrc, onReady]);
+  }, [imageSrc]);
 
   return (
     <canvas

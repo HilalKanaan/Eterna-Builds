@@ -60,11 +60,11 @@ export default function Preloader() {
       },
     });
 
-    // Phase 1: SVG logo stroke draw
+    // Phase 1: SVG logo stroke draw (0 - 1.5s)
     tl.to(paths, {
       strokeDashoffset: 0,
-      duration: 1.0,
-      stagger: 0.05,
+      duration: 1.5,
+      stagger: 0.08,
       ease: "power2.inOut",
     });
 
@@ -96,13 +96,13 @@ export default function Preloader() {
       obj,
       {
         val: 100,
-        duration: 1.2,
+        duration: 1.8,
         ease: "power2.inOut",
         onUpdate: () => {
           counter.textContent = String(Math.round(obj.val)).padStart(3, "0");
         },
       },
-      "-=0.8"
+      "-=1.2"
     );
 
     // Phase 2b: Brand text chars fade in letter by letter
@@ -115,11 +115,11 @@ export default function Preloader() {
         duration: 0.4,
         ease: "power3.out",
       },
-      "-=0.7"
+      "-=1.0"
     );
 
     // Brief hold
-    tl.to({}, { duration: 0.15 });
+    tl.to({}, { duration: 0.3 });
 
     // Phase 3: Fade out content
     tl.to(
