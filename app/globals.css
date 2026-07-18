@@ -8,8 +8,9 @@
   --color-cream: #faf7f2;
   --color-wood: #d4b896;
   --color-charcoal: #1a1a1a;
-  --color-amber: #c8a45c;
-  --color-amber-light: #d4b870;
+  /* Accent — warm terracotta / clay (replaces the former gold/amber) */
+  --color-clay: #b56a4d;
+  --color-clay-light: #c9855f;
 
   /* Typography */
   --font-heading: var(--font-montserrat), "Montserrat", sans-serif;

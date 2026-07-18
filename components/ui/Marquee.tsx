@@ -34,7 +34,7 @@ export default function Marquee({
   });
 
   const separator = (
-    <span className="mx-8 inline-block text-amber opacity-60">&mdash;</span>
+    <span className="mx-8 inline-block text-clay opacity-60">&mdash;</span>
   );
 
   const items = Array.from({ length: 10 }, (_, i) => (

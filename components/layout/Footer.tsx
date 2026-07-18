@@ -103,7 +103,7 @@ export default function Footer() {
             style={{ fontSize: "clamp(1.75rem, 6vw, 5rem)", perspective: "400px" }}
           >
             <span className="footer-heading-line block overflow-hidden">Let&apos;s Build Something</span>
-            <span className="footer-heading-line block overflow-hidden italic text-amber">Timeless</span>
+            <span className="footer-heading-line block overflow-hidden italic text-clay">Timeless</span>
           </h2>
           <div data-cursor-text="Click">
             <MagneticButton>Start Your Project</MagneticButton>
@@ -116,14 +116,14 @@ export default function Footer() {
             {/* Lebanon */}
             <div className="footer-item">
               <div className="flex items-center gap-3 mb-3">
-                <MapPin className="w-4 h-4 text-amber" />
+                <MapPin className="w-4 h-4 text-clay" />
                 <span className="text-xs tracking-[0.3em] uppercase font-heading text-beige/50">
                   {BRAND.contact.lebanon.label}
                 </span>
               </div>
               <a
                 href={`tel:${BRAND.contact.lebanon.phone.replace(/\s/g, "")}`}
-                className="text-2xl md:text-3xl font-heading font-light text-beige hover:text-amber transition-colors duration-300"
+                className="text-2xl md:text-3xl font-heading font-light text-beige hover:text-clay transition-colors duration-300"
                 data-hover
               >
                 {BRAND.contact.lebanon.phone}
@@ -133,14 +133,14 @@ export default function Footer() {
             {/* Saudi Arabia */}
             <div className="footer-item">
               <div className="flex items-center gap-3 mb-3">
-                <MapPin className="w-4 h-4 text-amber" />
+                <MapPin className="w-4 h-4 text-clay" />
                 <span className="text-xs tracking-[0.3em] uppercase font-heading text-beige/50">
                   {BRAND.contact.saudi.label}
                 </span>
               </div>
               <a
                 href={`tel:${BRAND.contact.saudi.phone.replace(/\s/g, "")}`}
-                className="text-2xl md:text-3xl font-heading font-light text-beige hover:text-amber transition-colors duration-300"
+                className="text-2xl md:text-3xl font-heading font-light text-beige hover:text-clay transition-colors duration-300"
                 data-hover
               >
                 {BRAND.contact.saudi.phone}
@@ -166,7 +166,7 @@ export default function Footer() {
               href={BRAND.contact.facebook}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-beige/50 hover:text-amber transition-colors duration-300 text-sm"
+              className="flex items-center gap-2 text-beige/50 hover:text-clay transition-colors duration-300 text-sm"
               data-hover
             >
               <Facebook className="w-4 h-4" />

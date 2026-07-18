@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { splitTextToChars } from "@/lib/splitText";
 
 export default function About() {
@@ -113,7 +113,7 @@ export default function About() {
       return (
         <span
           key={index}
-          className="about-word inline-block mr-[0.3em] italic text-amber cursor-pointer"
+          className="about-word inline-block mr-[0.3em] italic text-clay cursor-pointer"
           data-hover
           onMouseEnter={(e) =>
             handleKeywordHover(e, "/images/bold-preview.jpg", true)
@@ -131,7 +131,7 @@ export default function About() {
       return (
         <span
           key={index}
-          className="about-word inline-block mr-[0.3em] italic text-amber cursor-pointer"
+          className="about-word inline-block mr-[0.3em] italic text-clay cursor-pointer"
           data-hover
           onMouseEnter={(e) =>
             handleKeywordHover(e, "/images/timeless-preview.jpg", true)
@@ -167,7 +167,7 @@ export default function About() {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-40">
         {/* Section Label */}
-        <span className="inline-block text-xs tracking-[0.35em] uppercase text-amber mb-12 font-heading">
+        <span className="inline-block text-xs tracking-[0.35em] uppercase text-clay mb-12 font-heading">
           Our Philosophy
         </span>
 
@@ -205,7 +205,7 @@ export default function About() {
         >
           {stats.map((stat, i) => (
             <div key={i}>
-              <div className="font-heading text-amber mb-2" style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)" }}>
+              <div className="font-heading text-clay mb-2" style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)" }}>
                 <span className="stat-number" data-value={stat.value}>
                   0
                 </span>
