@@ -20,12 +20,16 @@ export default function Preloader() {
     const brand = brandRef.current;
     if (!preloader || !counter || !svg || !brand) return;
 
-    // Get all SVG paths for stroke animation
+    // Get all SVG paths for stroke animation. Each path carries its real
+    // logo fill color in data-fill; we prime it hidden (fillOpacity 0) so the
+    // stroke can "draw" first, then the true colors are revealed underneath.
     const paths = svg.querySelectorAll<SVGPathElement>("path");
     paths.forEach((path) => {
       const length = path.getTotalLength();
       path.style.strokeDasharray = `${length}`;
       path.style.strokeDashoffset = `${length}`;
+      path.style.fill = path.dataset.fill || "#f5f0e8";
+      path.style.fillOpacity = "0";
     });
 
     // Get brand text chars
@@ -64,17 +68,27 @@ export default function Preloader() {
       ease: "power2.inOut",
     });
 
-    // Phase 1b: Fill in the logo after stroke completes
+    // Phase 1b: Reveal the real logo colors (3D shaded faces + white gaps)
+    // underneath, and fade the beige draw-on outlines away so the final frame
+    // matches the real brand logo exactly.
     tl.to(
       paths,
       {
-        fill: "#f5f0e8",
-        stroke: "transparent",
-        duration: 0.4,
+        fillOpacity: 1,
+        duration: 0.5,
         stagger: 0.03,
         ease: "power1.in",
       },
       "-=0.3"
+    );
+    tl.to(
+      paths,
+      {
+        strokeOpacity: 0,
+        duration: 0.4,
+        ease: "power1.in",
+      },
+      "-=0.35"
     );
 
     // Phase 2: Counter counts 0 → 100 (overlapping with end of stroke)
@@ -154,70 +168,122 @@ export default function Preloader() {
 
       {/* Content overlay */}
       <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none">
-        {/* SVG Logo — stroke-draw version */}
+        {/* SVG Logo — exact real brand logo geometry, stroke-drawn then
+            revealed in its true 3D-shaded colors. Coordinates mirror
+            public/images/logo.svg so the animation ends on the real logo. */}
         <svg
           ref={svgRef}
-          viewBox="0 0 200 240"
+          viewBox="65 40 210 210"
           className="w-20 h-20 md:w-28 md:h-28 mb-8"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* 3D Building block — top face */}
-          <path
-            d="M40 50 L100 20 L200 20 L140 50 Z"
-            stroke="#f5f0e8"
-            strokeWidth="1.5"
-            fill="none"
-          />
-          {/* Front face - Floor 1 */}
-          <path
-            d="M40 50 L140 50 L140 95 L40 95 Z"
-            stroke="#f5f0e8"
-            strokeWidth="1.5"
-            fill="none"
-          />
-          {/* Side face - Floor 1 */}
-          <path
-            d="M140 50 L200 20 L200 65 L140 95 Z"
-            stroke="#f5f0e8"
-            strokeWidth="1.5"
-            fill="none"
-          />
-          {/* Front face - Floor 2 */}
-          <path
-            d="M40 105 L140 105 L140 150 L40 150 Z"
-            stroke="#f5f0e8"
-            strokeWidth="1.5"
-            fill="none"
-          />
-          {/* Side face - Floor 2 */}
-          <path
-            d="M140 105 L200 75 L200 120 L140 150 Z"
-            stroke="#f5f0e8"
-            strokeWidth="1.5"
-            fill="none"
-          />
-          {/* Front face - Floor 3 */}
-          <path
-            d="M40 160 L140 160 L140 210 L40 210 Z"
-            stroke="#f5f0e8"
-            strokeWidth="1.5"
-            fill="none"
-          />
-          {/* Side face - Floor 3 */}
-          <path
-            d="M140 160 L200 130 L200 180 L140 210 Z"
-            stroke="#f5f0e8"
-            strokeWidth="1.5"
-            fill="none"
-          />
-          {/* Bottom face */}
-          <path
-            d="M40 210 L140 210 L200 180 L100 180 Z"
-            stroke="#f5f0e8"
-            strokeWidth="1.5"
-            fill="none"
-          />
+          <g transform="translate(50, 20)">
+            {/* Back face (darkest, seen behind the block) */}
+            <path
+              d="M100 30 L200 30 L200 200 L100 200 Z"
+              stroke="#f5f0e8"
+              strokeWidth="1.5"
+              fill="none"
+              data-fill="#1a3a2a"
+            />
+            {/* Top face */}
+            <path
+              d="M40 60 L100 30 L200 30 L140 60 Z"
+              stroke="#f5f0e8"
+              strokeWidth="1.5"
+              fill="none"
+              data-fill="#2d6b4a"
+            />
+            {/* Front face - Floor 1 (top) */}
+            <path
+              d="M40 60 L140 60 L140 105 L40 105 Z"
+              stroke="#f5f0e8"
+              strokeWidth="1.5"
+              fill="none"
+              data-fill="#1f4d35"
+            />
+            {/* White gap 1 - front */}
+            <path
+              d="M40 105 L140 105 L140 115 L40 115 Z"
+              stroke="#f5f0e8"
+              strokeWidth="1.5"
+              fill="none"
+              data-fill="#ffffff"
+            />
+            {/* Side face - Floor 1 */}
+            <path
+              d="M140 60 L200 30 L200 75 L140 105 Z"
+              stroke="#f5f0e8"
+              strokeWidth="1.5"
+              fill="none"
+              data-fill="#163024"
+            />
+            {/* White gap 1 - side */}
+            <path
+              d="M140 105 L200 75 L200 85 L140 115 Z"
+              stroke="#f5f0e8"
+              strokeWidth="1.5"
+              fill="none"
+              data-fill="#ffffff"
+            />
+            {/* Front face - Floor 2 */}
+            <path
+              d="M40 115 L140 115 L140 160 L40 160 Z"
+              stroke="#f5f0e8"
+              strokeWidth="1.5"
+              fill="none"
+              data-fill="#1f4d35"
+            />
+            {/* White gap 2 - front */}
+            <path
+              d="M40 160 L140 160 L140 170 L40 170 Z"
+              stroke="#f5f0e8"
+              strokeWidth="1.5"
+              fill="none"
+              data-fill="#ffffff"
+            />
+            {/* Side face - Floor 2 */}
+            <path
+              d="M140 115 L200 85 L200 130 L140 160 Z"
+              stroke="#f5f0e8"
+              strokeWidth="1.5"
+              fill="none"
+              data-fill="#163024"
+            />
+            {/* White gap 2 - side */}
+            <path
+              d="M140 160 L200 130 L200 140 L140 170 Z"
+              stroke="#f5f0e8"
+              strokeWidth="1.5"
+              fill="none"
+              data-fill="#ffffff"
+            />
+            {/* Front face - Floor 3 (bottom) */}
+            <path
+              d="M40 170 L140 170 L140 220 L40 220 Z"
+              stroke="#f5f0e8"
+              strokeWidth="1.5"
+              fill="none"
+              data-fill="#1f4d35"
+            />
+            {/* Side face - Floor 3 */}
+            <path
+              d="M140 170 L200 140 L200 190 L140 220 Z"
+              stroke="#f5f0e8"
+              strokeWidth="1.5"
+              fill="none"
+              data-fill="#163024"
+            />
+            {/* Bottom face */}
+            <path
+              d="M40 220 L140 220 L200 190 L100 190 Z"
+              stroke="#f5f0e8"
+              strokeWidth="1.5"
+              fill="none"
+              data-fill="#0f2218"
+            />
+          </g>
         </svg>
 
         {/* Counter */}
