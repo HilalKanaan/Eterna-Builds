@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { GALLERY_ITEMS, BRAND } from "@/lib/constants";
+import { BLUR } from "@/lib/blurData";
 import { clamp } from "@/lib/utils";
 import { splitTextToChars } from "@/lib/splitText";
 import TiltCard from "@/components/ui/TiltCard";
@@ -225,13 +226,23 @@ export default function Gallery() {
                   src={item.image}
                   alt={item.title}
                   fill
+                  quality={72}
+                  placeholder="blur"
+                  blurDataURL={
+                    BLUR[
+                      item.image
+                        .split("/")
+                        .pop()!
+                        .replace(".jpg", "") as keyof typeof BLUR
+                    ]
+                  }
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 45vw"
                 />
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                  <span className="text-xs tracking-[0.3em] uppercase text-amber font-heading">
+                  <span className="text-xs tracking-[0.3em] uppercase text-clay font-heading">
                     {item.subtitle}
                   </span>
                 </div>

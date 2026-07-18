@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { ChevronDown } from "lucide-react";
-import { BRAND } from "@/lib/constants";
+import { BLUR } from "@/lib/blurData";
 import { splitTextToChars } from "@/lib/splitText";
 import HeroDistortion from "@/components/ui/HeroDistortion";
 
@@ -18,6 +18,8 @@ export default function Hero() {
   const locationRef = useRef<HTMLParagraphElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const [supportsWebGL, setSupportsWebGL] = useState(false);
+  const [heroReady, setHeroReady] = useState(false);
+  const handleHeroReady = useCallback(() => setHeroReady(true), []);
 
   // Detect WebGL support on mount
   useEffect(() => {
@@ -202,21 +204,28 @@ export default function Hero() {
       id="home"
     >
       <div ref={overlayRef} className="relative h-full w-full">
-        {/* Background — WebGL distortion or static fallback */}
+        {/* Background — optimized static image (instant LCP) with the WebGL
+            distortion layered on top and faded in once its texture is ready. */}
         <div ref={bgRef} className="absolute inset-0 scale-110">
-          {supportsWebGL ? (
+          <Image
+            src="/images/hero.jpg"
+            alt="Luxury modern interior"
+            fill
+            className="object-cover"
+            priority
+            quality={70}
+            placeholder="blur"
+            blurDataURL={BLUR.hero}
+            sizes="100vw"
+          />
+          {supportsWebGL && (
             <HeroDistortion
-              imageSrc="/images/hero.jpg"
-              className="object-cover"
-            />
-          ) : (
-            <Image
-              src="/images/hero.jpg"
-              alt="Luxury modern interior"
-              fill
-              className="object-cover"
-              priority
-              sizes="100vw"
+              imageSrc="/images/hero-texture.webp"
+              fallbackSrc="/images/hero.jpg"
+              onReady={handleHeroReady}
+              className={`object-cover transition-opacity duration-700 ${
+                heroReady ? "opacity-100" : "opacity-0"
+              }`}
             />
           )}
           {/* Gradient overlay */}
@@ -229,7 +238,7 @@ export default function Hero() {
           <div className="overflow-hidden mb-6">
             <span
               ref={subtitleRef}
-              className="inline-block text-sm tracking-[0.35em] uppercase text-amber font-heading"
+              className="inline-block text-sm tracking-[0.35em] uppercase text-clay font-heading"
             >
               Interior Design & Architecture
             </span>
@@ -247,7 +256,7 @@ export default function Hero() {
               <div ref={headingLine1Ref}>Spaces that</div>
             </div>
             <div className="overflow-hidden">
-              <div ref={headingLine2Ref} className="italic text-amber">
+              <div ref={headingLine2Ref} className="italic text-clay">
                 Understand you
               </div>
             </div>

@@ -112,7 +112,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-beige/70 hover:text-amber text-sm tracking-[0.15em] uppercase font-heading transition-colors duration-300"
+                className="text-beige/70 hover:text-clay text-sm tracking-[0.15em] uppercase font-heading transition-colors duration-300"
                 data-hover
                 data-cursor-text="Explore"
                 onClick={(e) => {
@@ -161,7 +161,7 @@ export default function Navbar() {
           <div key={link.href} className="overflow-hidden">
             <a
               href={link.href}
-              className="menu-link block font-heading text-beige text-4xl tracking-[0.15em] uppercase hover:text-amber transition-colors"
+              className="menu-link block font-heading text-beige text-4xl tracking-[0.15em] uppercase hover:text-clay transition-colors"
               data-hover
               onClick={(e) => {
                 e.preventDefault();
