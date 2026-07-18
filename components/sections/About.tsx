@@ -126,7 +126,7 @@ export default function About() {
       return (
         <span
           key={index}
-          className="about-word inline-block mr-[0.3em] italic text-warm-gold cursor-pointer"
+          className="about-word inline-block mr-[0.3em] italic text-sage cursor-pointer"
           data-hover
           onMouseEnter={(e) =>
             handleKeywordHover(e, "/images/bold-preview.jpg", true)
@@ -144,7 +144,7 @@ export default function About() {
       return (
         <span
           key={index}
-          className="about-word inline-block mr-[0.3em] italic text-warm-gold cursor-pointer"
+          className="about-word inline-block mr-[0.3em] italic text-sage cursor-pointer"
           data-hover
           onMouseEnter={(e) =>
             handleKeywordHover(e, "/images/timeless-preview.jpg", true)
@@ -185,7 +185,7 @@ export default function About() {
         >
           {stats.map((stat, i) => (
             <div key={i}>
-              <div className="font-heading text-warm-gold mb-2" style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)" }}>
+              <div className="font-heading text-sage mb-2" style={{ fontSize: "clamp(2.5rem, 4vw, 3.5rem)" }}>
                 <span className="stat-number" data-value={stat.value}>
                   0
                 </span>
@@ -199,7 +199,7 @@ export default function About() {
         </div>
 
         {/* Section Label */}
-        <span className="inline-block text-xs tracking-[0.35em] uppercase text-warm-gold mb-12 font-heading">
+        <span className="inline-block text-xs tracking-[0.35em] uppercase text-sage mb-12 font-heading">
           Our Philosophy
         </span>
 

@@ -59,23 +59,22 @@ export default function Hero() {
       const bg = bgRef.current;
       if (!section || !bg) return;
 
+      // The retracting preloader curtain is itself the reveal, so the image must
+      // already be opaque behind it — fading it in from 0 leaves a visible gap
+      // where the page background shows through. Only the scale settles.
+      gsap.set(bg, { scale: 1.3, willChange: "transform" });
+
       // Wait for preloader to finish
       const runAnimations = () => {
-        const tl = gsap.timeline({ delay: 0.2 });
+        const tl = gsap.timeline();
 
-        // Image reveal â€” GPU-composited scale + opacity
-        gsap.set(bg, { willChange: "transform, opacity" });
-        tl.fromTo(
-          bg,
-          { scale: 1.3, opacity: 0 },
-          {
-            scale: 1.1,
-            opacity: 1,
-            duration: 1.4,
-            ease: "power4.inOut",
-            clearProps: "willChange",
-          }
-        );
+        // Image settle â€” GPU-composited scale, no opacity gap
+        tl.to(bg, {
+          scale: 1.1,
+          duration: 1.6,
+          ease: "power3.out",
+          clearProps: "willChange",
+        });
 
         // Subtitle fade in
         tl.fromTo(
@@ -161,11 +160,16 @@ export default function Hero() {
         runAnimations();
       };
 
+      // Preloader may have already finished (or been skipped this session)
+      if ((window as Window & { __ebPreloaderDone?: boolean }).__ebPreloaderDone) {
+        safeRunAnimations();
+      }
+
       // Listen for preloader complete event
       window.addEventListener("preloaderComplete", safeRunAnimations);
 
-      // Fallback if preloader already completed
-      const timeout = setTimeout(safeRunAnimations, 5000);
+      // Fallback if the event never arrives
+      const timeout = setTimeout(safeRunAnimations, 3200);
 
       // Scroll parallax on background
       gsap.to(bg, {
@@ -210,19 +214,19 @@ export default function Hero() {
       <div ref={overlayRef} className="relative h-full w-full" style={{ willChange: "transform, opacity" }}>
         {/* Background â€” WebGL distortion or static fallback */}
         <div ref={bgRef} className="absolute inset-0 scale-110">
-          {supportsWebGL ? (
+          {/* Priority image always mounted for instant LCP; WebGL layer fades in on top */}
+          <Image
+            src="/images/hero.webp"
+            alt="Luxury modern interior"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
+          {supportsWebGL && (
             <HeroDistortion
-              imageSrc="/images/hero.jpg"
+              imageSrc="/images/hero.webp"
               className="object-cover"
-            />
-          ) : (
-            <Image
-              src="/images/hero.jpg"
-              alt="Luxury modern interior"
-              fill
-              className="object-cover"
-              priority
-              sizes="100vw"
             />
           )}
           {/* Gradient overlay */}
@@ -235,7 +239,7 @@ export default function Hero() {
           <div className="overflow-hidden mb-6">
             <span
               ref={subtitleRef}
-              className="inline-block text-sm tracking-[0.35em] uppercase text-warm-gold font-heading"
+              className="inline-block text-sm tracking-[0.35em] uppercase text-sage font-heading"
             >
               Interior Design & Architecture
             </span>
@@ -245,7 +249,7 @@ export default function Hero() {
           <h1
             className="font-heading font-bold text-light-grey leading-[0.95]"
             style={{
-              fontSize: "clamp(2.25rem, 10vw, 9rem)",
+              fontSize: "clamp(1.75rem, 6.5vw, 5.5rem)",
               perspective: "400px",
             }}
           >
@@ -253,7 +257,7 @@ export default function Hero() {
               <div ref={headingLine1Ref}>Spaces that</div>
             </div>
             <div className="overflow-hidden">
-              <div ref={headingLine2Ref} className="italic text-warm-gold">
+              <div ref={headingLine2Ref} className="italic text-sage">
                 Understand you
               </div>
             </div>
@@ -276,9 +280,9 @@ export default function Hero() {
         >
           {/* Glowing pill badge */}
           <div className="relative">
-            <div className="absolute inset-0 bg-warm-gold/30 rounded-full blur-xl animate-pulse-soft" />
-            <div className="relative px-6 py-2.5 border border-warm-gold/50 rounded-full bg-warm-gold/10 backdrop-blur-sm">
-              <span className="text-warm-gold text-sm font-heading font-semibold tracking-[0.3em] uppercase">
+            <div className="absolute inset-0 bg-sage/30 rounded-full blur-xl animate-pulse-soft" />
+            <div className="relative px-6 py-2.5 border border-sage/50 rounded-full bg-sage/10 backdrop-blur-sm">
+              <span className="text-sage text-sm font-heading font-semibold tracking-[0.3em] uppercase">
                 Scroll down
               </span>
             </div>
@@ -286,13 +290,13 @@ export default function Hero() {
 
           {/* Animated chevrons */}
           <div className="flex flex-col items-center gap-1 animate-scroll-bounce">
-            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-warm-gold opacity-40">
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-sage opacity-40">
               <path d="M1 1L10 8L19 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-warm-gold opacity-70">
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-sage opacity-70">
               <path d="M1 1L10 8L19 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-warm-gold">
+            <svg width="20" height="10" viewBox="0 0 20 10" fill="none" className="text-sage">
               <path d="M1 1L10 8L19 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>

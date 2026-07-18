@@ -8,8 +8,8 @@ import { Facebook, Instagram, Linkedin } from "lucide-react";
 import Marquee from "@/components/ui/Marquee";
 
 const COUNTRIES = [
-  { id: "lebanon", label: "Lebanon", flag: "ðŸ‡±ðŸ‡§" },
-  { id: "ksa", label: "Saudi Arabia", flag: "ðŸ‡¸ðŸ‡¦" },
+  { id: "lebanon", label: "Lebanon", flag: "🇱🇧" },
+  { id: "ksa", label: "Saudi Arabia", flag: "🇸🇦" },
 ];
 
 const PROJECT_TYPES = [
@@ -126,15 +126,15 @@ export default function Footer() {
 
   /* â”€â”€ Styling helpers â”€â”€ */
   const inputBase =
-    "w-full bg-transparent border-b border-light-grey/15 pb-2.5 pt-0.5 text-sm text-light-grey placeholder-light-grey/25 font-body outline-none transition-colors duration-300 focus:border-warm-gold";
+    "w-full bg-transparent border-b border-light-grey/15 pb-2.5 pt-0.5 text-sm text-light-grey placeholder-light-grey/25 font-body outline-none transition-colors duration-300 focus:border-sage";
 
   const pillBase =
     "px-3.5 py-1.5 rounded-full border text-xs font-heading font-medium tracking-wide transition-all duration-300 cursor-pointer select-none whitespace-nowrap";
 
   const pillInactive =
-    "border-light-grey/20 text-light-grey/50 hover:border-warm-gold/50 hover:text-light-grey";
+    "border-light-grey/20 text-light-grey/50 hover:border-sage/50 hover:text-light-grey";
 
-  const pillActive = "bg-warm-gold border-warm-gold text-light-grey";
+  const pillActive = "bg-sage border-sage text-light-grey";
 
   return (
     <footer
@@ -167,7 +167,7 @@ export default function Footer() {
         {/* â”€â”€ Form header â”€â”€ */}
         <div className="footer-row flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-10">
           <div>
-            <span className="text-[10px] tracking-[0.35em] uppercase text-warm-gold font-heading block mb-2">
+            <span className="text-[10px] tracking-[0.35em] uppercase text-sage font-heading block mb-2">
               Contact Us
             </span>
             <h2
@@ -175,18 +175,18 @@ export default function Footer() {
               style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.8rem)" }}
             >
               Start Your{" "}
-              <span className="italic text-warm-gold">Project</span>
+              <span className="italic text-sage">Project</span>
             </h2>
           </div>
           <p className="text-light-grey/40 text-sm max-w-xs text-right hidden sm:block">
-            Share your vision â€” we&apos;ll get back to you shortly.
+            Share your vision — we&apos;ll get back to you shortly.
           </p>
         </div>
 
         {/* â”€â”€ Phone numbers â”€â”€ */}
         <div className="footer-row flex flex-wrap gap-x-10 gap-y-3 mb-10">
           <div>
-            <p className="text-[9px] tracking-[0.3em] uppercase text-warm-gold font-heading mb-1">
+            <p className="text-[9px] tracking-[0.3em] uppercase text-sage font-heading mb-1">
               Lebanon
             </p>
             <a
@@ -198,7 +198,7 @@ export default function Footer() {
             </a>
           </div>
           <div>
-            <p className="text-[9px] tracking-[0.3em] uppercase text-warm-gold font-heading mb-1">
+            <p className="text-[9px] tracking-[0.3em] uppercase text-sage font-heading mb-1">
               Saudi Arabia
             </p>
             <a
@@ -216,7 +216,7 @@ export default function Footer() {
           onSubmit={handleSubmit}
           className="flex flex-col gap-6"
         >
-          {/* Row 1 â€” Name / Email / Phone */}
+          {/* Row 1 — Name / Email / Phone */}
           <div className="footer-row grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-6">
             <div>
               <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-light-grey/35 block mb-2">
@@ -266,7 +266,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Row 2 â€” Country + Project Type */}
+          {/* Row 2 — Country + Project Type */}
           <div className="footer-row grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
             <div>
               <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-light-grey/35 block mb-3">
@@ -305,12 +305,12 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Row 3 â€” Services multi-select */}
+          {/* Row 3 — Services multi-select */}
           <div className="footer-row">
             <label className="text-[9px] tracking-[0.3em] uppercase font-heading text-light-grey/35 block mb-3">
               Services Required{" "}
               <span className="text-light-grey/20 normal-case tracking-normal font-body">
-                â€” select all that apply
+                — select all that apply
               </span>
             </label>
             <div className="flex flex-wrap gap-2">
@@ -333,11 +333,11 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Row 4 â€” Submit */}
+          {/* Row 4 — Submit */}
           <div className="footer-row flex items-center justify-end gap-4 pt-1">
             {submitStatus === "success" && (
-              <p className="text-sm font-body text-warm-gold tracking-wide">
-                Enquiry sent â€” check your email for a confirmation.
+              <p className="text-sm font-body text-sage tracking-wide">
+                Enquiry sent — check your email for a confirmation.
               </p>
             )}
             {submitStatus === "error" && (
@@ -348,7 +348,7 @@ export default function Footer() {
             <button
               type="submit"
               disabled={submitStatus === "loading" || submitStatus === "success"}
-              className="group inline-flex items-center gap-2.5 px-8 py-3 bg-warm-gold hover:bg-deep-green text-light-grey font-heading font-semibold text-xs tracking-[0.2em] uppercase rounded-full transition-all duration-300 border border-warm-gold hover:border-light-grey/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-warm-gold disabled:hover:border-warm-gold"
+              className="group inline-flex items-center gap-2.5 px-8 py-3 bg-sage hover:bg-deep-green text-light-grey font-heading font-semibold text-xs tracking-[0.2em] uppercase rounded-full transition-all duration-300 border border-sage hover:border-light-grey/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-sage disabled:hover:border-sage"
               data-hover
               data-cursor-text="Send"
             >
@@ -392,7 +392,7 @@ export default function Footer() {
               href={BRAND.contact.facebook}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-light-grey/40 hover:text-warm-gold transition-colors duration-300"
+              className="text-light-grey/40 hover:text-sage transition-colors duration-300"
               data-hover
               aria-label="Facebook"
             >
@@ -402,7 +402,7 @@ export default function Footer() {
               href={BRAND.contact.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-light-grey/40 hover:text-warm-gold transition-colors duration-300"
+              className="text-light-grey/40 hover:text-sage transition-colors duration-300"
               data-hover
               aria-label="Instagram"
             >
@@ -412,7 +412,7 @@ export default function Footer() {
               href={BRAND.contact.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-light-grey/40 hover:text-warm-gold transition-colors duration-300"
+              className="text-light-grey/40 hover:text-sage transition-colors duration-300"
               data-hover
               aria-label="LinkedIn"
             >

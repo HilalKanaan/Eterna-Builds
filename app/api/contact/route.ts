@@ -87,7 +87,7 @@ function buildEmailHtml(data: ContactPayload): string {
               <p style="margin:0;font-size:22px;font-weight:700;color:#f7f9f9;letter-spacing:0.08em;text-transform:uppercase;">
                 Eterna Builds
               </p>
-              <p style="margin:6px 0 0;font-size:11px;color:#C4A35A;letter-spacing:0.25em;text-transform:uppercase;">
+              <p style="margin:6px 0 0;font-size:11px;color:#85BB9C;letter-spacing:0.25em;text-transform:uppercase;">
                 Spaces that Understand you
               </p>
             </td>
@@ -110,7 +110,7 @@ function buildEmailHtml(data: ContactPayload): string {
                 style="background:#f7f9f9;border-left:3px solid #143531;border-radius:2px;margin:0 0 28px;">
                 <tr>
                   <td style="padding:20px 24px;">
-                    <p style="margin:0 0 16px;font-size:10px;color:#C4A35A;letter-spacing:0.3em;text-transform:uppercase;font-weight:600;">
+                    <p style="margin:0 0 16px;font-size:10px;color:#85BB9C;letter-spacing:0.3em;text-transform:uppercase;font-weight:600;">
                       Enquiry Summary
                     </p>
                     <table cellpadding="0" cellspacing="0" width="100%">
@@ -194,7 +194,7 @@ function buildOwnerEmailHtml(data: ContactPayload): string {
               <p style="margin:0;font-size:18px;font-weight:700;color:#f7f9f9;letter-spacing:0.08em;text-transform:uppercase;">
                 New Enquiry Received
               </p>
-              <p style="margin:6px 0 0;font-size:11px;color:#C4A35A;letter-spacing:0.2em;text-transform:uppercase;">
+              <p style="margin:6px 0 0;font-size:11px;color:#85BB9C;letter-spacing:0.2em;text-transform:uppercase;">
                 Eterna Builds Website
               </p>
             </td>
@@ -209,10 +209,10 @@ function buildOwnerEmailHtml(data: ContactPayload): string {
 
               <!-- Contact details -->
               <table width="100%" cellpadding="0" cellspacing="0"
-                style="background:#f7f9f9;border-left:3px solid #C4A35A;border-radius:2px;margin:0 0 24px;">
+                style="background:#f7f9f9;border-left:3px solid #85BB9C;border-radius:2px;margin:0 0 24px;">
                 <tr>
                   <td style="padding:20px 24px;">
-                    <p style="margin:0 0 14px;font-size:10px;color:#C4A35A;letter-spacing:0.3em;text-transform:uppercase;font-weight:600;">
+                    <p style="margin:0 0 14px;font-size:10px;color:#85BB9C;letter-spacing:0.3em;text-transform:uppercase;font-weight:600;">
                       Contact Details
                     </p>
                     <table cellpadding="0" cellspacing="0" width="100%">
@@ -242,7 +242,7 @@ function buildOwnerEmailHtml(data: ContactPayload): string {
                 style="background:#f7f9f9;border-left:3px solid #143531;border-radius:2px;margin:0 0 24px;">
                 <tr>
                   <td style="padding:20px 24px;">
-                    <p style="margin:0 0 14px;font-size:10px;color:#C4A35A;letter-spacing:0.3em;text-transform:uppercase;font-weight:600;">
+                    <p style="margin:0 0 14px;font-size:10px;color:#85BB9C;letter-spacing:0.3em;text-transform:uppercase;font-weight:600;">
                       Project Details
                     </p>
                     <table cellpadding="0" cellspacing="0" width="100%">

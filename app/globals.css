@@ -3,7 +3,7 @@
 @theme inline {
   /* Brand Colors — Eterna Builds Brand Guide 2025 */
   --color-deep-green: #143531;
-  --color-warm-gold: #C4A35A;
+  --color-sage: #85bb9c;
   --color-stone-white: #E8E0D0;
   --color-deep-grey: #cfcdce;
 
@@ -23,7 +23,9 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: #f7f9f9;
+  /* Deep green, not white — every section sits on a dark background, so a light
+     page background only ever shows through as a flash between transitions. */
+  background-color: #143531;
   color: #1a1a1a;
   overflow-x: hidden;
 }

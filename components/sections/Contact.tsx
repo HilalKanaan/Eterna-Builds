@@ -173,7 +173,7 @@ export default function Contact() {
     "border-charcoal/20 text-charcoal/55 hover:border-deep-green/50 hover:text-deep-green";
 
   const pillActive = "border-deep-green bg-deep-green text-light-grey shadow-sm";
-  const chipActive = "border-warm-gold bg-warm-gold text-light-grey shadow-sm";
+  const chipActive = "border-sage bg-sage text-light-grey shadow-sm";
 
   return (
     <section
@@ -196,7 +196,7 @@ export default function Contact() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-28 md:py-44">
         {/* Section label */}
-        <span className="contact-left inline-block text-xs tracking-[0.35em] uppercase text-warm-gold font-heading mb-16">
+        <span className="contact-left inline-block text-xs tracking-[0.35em] uppercase text-sage font-heading mb-16">
           Get In Touch
         </span>
 
@@ -214,7 +214,7 @@ export default function Contact() {
               <span className="contact-line block overflow-hidden text-charcoal">
                 Let&apos;s Start
               </span>
-              <span className="contact-line block overflow-hidden italic text-warm-gold">
+              <span className="contact-line block overflow-hidden italic text-sage">
                 Your Project
               </span>
             </h2>
@@ -227,7 +227,7 @@ export default function Contact() {
             <div className="contact-left pt-8 border-t border-charcoal/10 flex flex-col gap-7">
               {/* Lebanon */}
               <div>
-                <p className="text-[10px] tracking-[0.35em] uppercase text-warm-gold font-heading mb-1.5">
+                <p className="text-[10px] tracking-[0.35em] uppercase text-sage font-heading mb-1.5">
                   Lebanon
                 </p>
                 <a
@@ -240,7 +240,7 @@ export default function Contact() {
               </div>
               {/* Saudi Arabia */}
               <div>
-                <p className="text-[10px] tracking-[0.35em] uppercase text-warm-gold font-heading mb-1.5">
+                <p className="text-[10px] tracking-[0.35em] uppercase text-sage font-heading mb-1.5">
                   Saudi Arabia
                 </p>
                 <a
@@ -404,7 +404,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={submitStatus === "loading" || submitStatus === "success"}
-                className="group inline-flex items-center gap-3 px-10 py-4 bg-deep-green text-light-grey font-heading font-semibold text-sm tracking-[0.2em] uppercase rounded-full transition-all duration-300 hover:bg-warm-gold hover:gap-4 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:gap-3 disabled:hover:bg-deep-green"
+                className="group inline-flex items-center gap-3 px-10 py-4 bg-deep-green text-light-grey font-heading font-semibold text-sm tracking-[0.2em] uppercase rounded-full transition-all duration-300 hover:bg-sage hover:gap-4 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:gap-3 disabled:hover:bg-deep-green"
                 data-hover
                 data-cursor-text="Send"
               >

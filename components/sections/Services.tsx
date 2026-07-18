@@ -7,7 +7,7 @@ const OUR_SERVICES: ServiceItem[] = [
     tag: "Creative Direction",
     description:
       "From concept to the finest detail — crafting spaces that speak your language.",
-    image: "/images/service-01-design.png",
+    image: "/images/service-01-design.webp",
   },
   {
     number: "02",
@@ -15,7 +15,7 @@ const OUR_SERVICES: ServiceItem[] = [
     tag: "Strategic Oversight",
     description:
       "End-to-end ownership from first brief to final handover, on time and on vision.",
-    image: "/images/service-02-management.png",
+    image: "/images/service-02-management.webp",
   },
   {
     number: "03",
@@ -23,7 +23,7 @@ const OUR_SERVICES: ServiceItem[] = [
     tag: "Quality Control",
     description:
       "On-site expertise ensuring every standard, specification, and finish is met.",
-    image: "/images/service-03-supervision.png",
+    image: "/images/service-03-supervision.webp",
   },
   {
     number: "04",
@@ -31,7 +31,7 @@ const OUR_SERVICES: ServiceItem[] = [
     tag: "Built to Last",
     description:
       "Precision construction with premium craftsmanship at every stage.",
-    image: "/images/service-04-execution.png",
+    image: "/images/service-04-execution.webp",
   },
 ];
 
@@ -42,7 +42,7 @@ const WHAT_WE_DO: ServiceItem[] = [
     tag: "Foundation First",
     description:
       "Site preparation and outdoor environments that ground the vision before walls rise.",
-    image: "/images/work-01-earthworks.png",
+    image: "/images/work-01-earthworks.webp",
   },
   {
     number: "02",
@@ -50,7 +50,7 @@ const WHAT_WE_DO: ServiceItem[] = [
     tag: "Structural Integrity",
     description:
       "Robust frameworks engineered to endure for generations.",
-    image: "/images/work-02-concrete.png",
+    image: "/images/work-02-concrete.webp",
   },
   {
     number: "03",
@@ -58,7 +58,7 @@ const WHAT_WE_DO: ServiceItem[] = [
     tag: "Smart Infrastructure",
     description:
       "Mechanical, electrical, and plumbing systems engineered for efficiency and longevity.",
-    image: "/images/work-03-mep.png",
+    image: "/images/work-03-mep.webp",
   },
   {
     number: "04",
@@ -66,7 +66,7 @@ const WHAT_WE_DO: ServiceItem[] = [
     tag: "Surface Excellence",
     description:
       "Premium materials and finishes that define the character of every space.",
-    image: "/images/work-04-interior.png",
+    image: "/images/work-04-interior.webp",
   },
   {
     number: "05",
@@ -74,7 +74,7 @@ const WHAT_WE_DO: ServiceItem[] = [
     tag: "Complete Living",
     description:
       "Curated furnishing and accessory selections that complete every interior story.",
-    image: "/images/work-05-furniture.png",
+    image: "/images/work-05-furniture.webp",
   },
 ];
 

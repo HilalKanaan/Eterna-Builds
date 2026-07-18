@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const VERTEX_SHADER = `
   attribute vec2 position;
@@ -48,13 +48,13 @@ const FRAGMENT_SHADER = `
     float b = texture2D(uTexture, displaced - rOffset).b;
     vec3 color = vec3(r, g, b);
 
-    // --- Warm amber spotlight near cursor ---
-    float warmZone = smoothstep(0.45, 0.0, dist) * uStrength;
-    color += vec3(0.12, 0.06, -0.02) * warmZone;
+    // --- Soft jade spotlight near cursor ---
+    float glowZone = smoothstep(0.45, 0.0, dist) * uStrength;
+    color += vec3(0.02, 0.09, 0.04) * glowZone;
 
-    // --- Rim highlight ring around displacement area ---
+    // --- Rim highlight ring around displacement area (jade) ---
     float ring = smoothstep(0.02, 0.0, abs(dist - radius * 0.6)) * uStrength * 0.08;
-    color += vec3(0.78, 0.64, 0.36) * ring;
+    color += vec3(0.52, 0.73, 0.61) * ring;
 
     gl_FragColor = vec4(color, 1.0);
   }
@@ -70,6 +70,7 @@ export default function HeroDistortion({
   className = "",
 }: HeroDistortionProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [textureReady, setTextureReady] = useState(false);
   const mouseRef = useRef({ x: 0.5, y: 0.5, targetX: 0.5, targetY: 0.5 });
   const strengthRef = useRef({ current: 0, target: 0 });
   const rafRef = useRef<number>(0);
@@ -161,6 +162,7 @@ export default function HeroDistortion({
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      setTextureReady(true);
     };
     img.src = imageSrc;
 
@@ -234,7 +236,11 @@ export default function HeroDistortion({
     <canvas
       ref={canvasRef}
       className={`absolute inset-0 w-full h-full ${className}`}
-      style={{ display: "block" }}
+      style={{
+        display: "block",
+        opacity: textureReady ? 1 : 0,
+        transition: "opacity 0.5s ease",
+      }}
     />
   );
 }

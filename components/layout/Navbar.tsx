@@ -116,7 +116,7 @@ export default function Navbar({ onOpenProfile }: NavbarProps) {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-light-grey/70 hover:text-warm-gold text-base font-medium tracking-[0.15em] uppercase font-heading transition-colors duration-300"
+                className="text-light-grey/70 hover:text-sage text-base font-medium tracking-[0.15em] uppercase font-heading transition-colors duration-300"
                 data-hover
                 data-cursor-text="Explore"
                 onClick={(e) => {
@@ -131,7 +131,7 @@ export default function Navbar({ onOpenProfile }: NavbarProps) {
             {/* Download Company Profile CTA */}
             <a
               href="#"
-              className="inline-flex items-center gap-2 bg-warm-gold hover:bg-deep-green text-light-grey font-heading font-semibold text-sm tracking-wider uppercase rounded-full px-5 py-2.5 transition-colors duration-300"
+              className="inline-flex items-center gap-2 bg-sage hover:bg-deep-green text-light-grey font-heading font-semibold text-sm tracking-wider uppercase rounded-full px-5 py-2.5 transition-colors duration-300"
               data-hover
               data-cursor-text="View"
               onClick={(e) => { e.preventDefault(); onOpenProfile(); }}
@@ -179,7 +179,7 @@ export default function Navbar({ onOpenProfile }: NavbarProps) {
           <div key={link.href} className="overflow-hidden">
             <a
               href={link.href}
-              className="menu-link block font-heading font-semibold text-light-grey text-5xl tracking-[0.15em] uppercase hover:text-warm-gold transition-colors"
+              className="menu-link block font-heading font-semibold text-light-grey text-5xl tracking-[0.15em] uppercase hover:text-sage transition-colors"
               data-hover
               onClick={(e) => {
                 e.preventDefault();
@@ -195,7 +195,7 @@ export default function Navbar({ onOpenProfile }: NavbarProps) {
         <div className="overflow-hidden mt-4">
           <a
             href="#"
-            className="menu-link inline-flex items-center gap-3 bg-warm-gold hover:bg-deep-green text-light-grey font-heading font-semibold text-lg tracking-wider uppercase rounded-full px-8 py-3.5 transition-colors duration-300"
+            className="menu-link inline-flex items-center gap-3 bg-sage hover:bg-deep-green text-light-grey font-heading font-semibold text-lg tracking-wider uppercase rounded-full px-8 py-3.5 transition-colors duration-300"
             data-hover
             onClick={(e) => { e.preventDefault(); tlRef.current?.reverse(); setMenuOpen(false); onOpenProfile(); }}
           >

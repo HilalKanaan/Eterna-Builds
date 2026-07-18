@@ -41,3 +41,13 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# local tooling config
+.claude/settings.local.json
+
+# brand source material — kept locally, not needed to build or serve the site.
+# brand-assets/ holds the original full-size PNGs that were converted to the
+# WebP files under public/images/.
+/brand-assets/
+/Logo.png
+/*.pdf

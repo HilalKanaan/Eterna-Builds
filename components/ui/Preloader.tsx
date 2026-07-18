@@ -14,6 +14,17 @@ export default function Preloader() {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    // Skip the intro on repeat visits within the same session — visitors
+    // shouldn't wait for the animation more than once.
+    if (sessionStorage.getItem("eb-preloader-seen")) {
+      (window as Window & { __ebPreloaderDone?: boolean }).__ebPreloaderDone = true;
+      setIsVisible(false);
+      requestAnimationFrame(() => {
+        window.dispatchEvent(new CustomEvent("preloaderComplete"));
+      });
+      return;
+    }
+
     const preloader = preloaderRef.current;
     const counter = counterRef.current;
     const svg = svgRef.current;
@@ -51,24 +62,24 @@ export default function Preloader() {
 
     const tl = gsap.timeline({
       onComplete: () => {
+        sessionStorage.setItem("eb-preloader-seen", "1");
         setIsVisible(false);
-        window.dispatchEvent(new CustomEvent("preloaderComplete"));
       },
     });
 
-    // Phase 1: SVG logo stroke draw (0 - 1.5s)
+    // Phase 1: SVG logo stroke draw
     tl.to(paths, {
       strokeDashoffset: 0,
-      duration: 1.5,
-      stagger: 0.08,
+      duration: 0.8,
+      stagger: 0.05,
       ease: "power2.inOut",
     });
 
-    // Phase 1b: Fill in the logo after stroke completes
+    // Phase 1b: Fill in the logo with its true brand colors after stroke completes
     tl.to(
       paths,
       {
-        fill: "#f7f9f9",
+        fill: (_i: number, el: SVGPathElement) => el.dataset.fill || "#f7f9f9",
         stroke: "transparent",
         duration: 0.4,
         stagger: 0.03,
@@ -82,13 +93,13 @@ export default function Preloader() {
       obj,
       {
         val: 100,
-        duration: 1.8,
+        duration: 1.0,
         ease: "power2.inOut",
         onUpdate: () => {
           counter.textContent = String(Math.round(obj.val)).padStart(3, "0");
         },
       },
-      "-=1.2"
+      "-=0.8"
     );
 
     // Phase 2b: Brand text chars fade in letter by letter
@@ -101,11 +112,11 @@ export default function Preloader() {
         duration: 0.4,
         ease: "power3.out",
       },
-      "-=1.0"
+      "-=0.7"
     );
 
     // Brief hold
-    tl.to({}, { duration: 0.3 });
+    tl.to({}, { duration: 0.15 });
 
     // Phase 3: Fade out content
     tl.to(
@@ -113,19 +124,25 @@ export default function Preloader() {
       {
         opacity: 0,
         scale: 0.9,
-        duration: 0.4,
+        duration: 0.35,
         ease: "power2.in",
       }
     );
 
-    // Phase 3b: Venetian blind curtain — bars retract upward with stagger
+    // Phase 3b: Venetian blind curtain — bars retract upward with stagger.
+    // The hero reveal is triggered as the curtain *starts* opening so the two
+    // overlap; waiting until the curtain is fully open leaves a bare frame.
     tl.to(
       bars,
       {
         yPercent: -100,
-        duration: 0.8,
-        stagger: 0.08,
+        duration: 0.6,
+        stagger: 0.06,
         ease: "power4.inOut",
+        onStart: () => {
+          (window as Window & { __ebPreloaderDone?: boolean }).__ebPreloaderDone = true;
+          window.dispatchEvent(new CustomEvent("preloaderComplete"));
+        },
       },
       "-=0.1"
     );
@@ -154,66 +171,58 @@ export default function Preloader() {
 
       {/* Content overlay */}
       <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none">
-        {/* SVG Logo — stroke-draw version */}
+        {/* SVG Logo — stroke-draw version, traced from the official Eterna Builds logo */}
         <svg
           ref={svgRef}
-          viewBox="0 0 200 240"
-          className="w-20 h-20 md:w-28 md:h-28 mb-8"
+          viewBox="0 0 374 310"
+          className="w-24 md:w-32 h-auto mb-8"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* 3D Building block — top face */}
+          {/* Top slab — front face */}
           <path
-            d="M40 50 L100 20 L200 20 L140 50 Z"
+            d="M11 89 L260 1 L260 82 L11 145 Z"
+            data-fill="#21504E"
             stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"
           />
-          {/* Front face - Floor 1 */}
+          {/* Top slab — side face */}
           <path
-            d="M40 50 L140 50 L140 95 L40 95 Z"
+            d="M260 1 L363 97 L363 150 L260 82 Z"
+            data-fill="#163531"
             stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"
           />
-          {/* Side face - Floor 1 */}
+          {/* Middle slab — front face */}
           <path
-            d="M140 50 L200 20 L200 65 L140 95 Z"
+            d="M11 170 L215 125 L215 198 L11 226 Z"
+            data-fill="#21504E"
             stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"
           />
-          {/* Front face - Floor 2 */}
+          {/* Middle slab — side face */}
           <path
-            d="M40 105 L140 105 L140 150 L40 150 Z"
+            d="M215 125 L363 178 L363 230 L215 198 Z"
+            data-fill="#163531"
             stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"
           />
-          {/* Side face - Floor 2 */}
+          {/* Bottom slab — front face */}
           <path
-            d="M140 105 L200 75 L200 120 L140 150 Z"
+            d="M11 253 L148 242 L148 308 L11 308 Z"
+            data-fill="#21504E"
             stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"
           />
-          {/* Front face - Floor 3 */}
+          {/* Bottom slab — side face */}
           <path
-            d="M40 160 L140 160 L140 210 L40 210 Z"
-            stroke="#f7f9f9"
-            strokeWidth="1.5"
-            fill="none"
-          />
-          {/* Side face - Floor 3 */}
-          <path
-            d="M140 160 L200 130 L200 180 L140 210 Z"
-            stroke="#f7f9f9"
-            strokeWidth="1.5"
-            fill="none"
-          />
-          {/* Bottom face */}
-          <path
-            d="M40 210 L140 210 L200 180 L100 180 Z"
+            d="M148 242 L363 257 L363 308 L148 308 Z"
+            data-fill="#163531"
             stroke="#f7f9f9"
             strokeWidth="1.5"
             fill="none"

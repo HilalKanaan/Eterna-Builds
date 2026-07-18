@@ -194,7 +194,7 @@ export default function ServiceDrawer({
     >
       {/* Section Header */}
       <div className="pt-24 md:pt-0 md:absolute md:top-12 md:left-12 z-20">
-        <span className="text-xs tracking-[0.35em] uppercase text-warm-gold font-heading px-6 md:px-0">
+        <span className="text-xs tracking-[0.35em] uppercase text-sage font-heading px-6 md:px-0">
           {label}
         </span>
         <div className="overflow-hidden">
@@ -258,7 +258,7 @@ export default function ServiceDrawer({
 
                   {/* Content block */}
                   <div className="relative z-10">
-                    <span className="text-xs tracking-[0.3em] uppercase text-warm-gold font-heading mb-3 block">
+                    <span className="text-xs tracking-[0.3em] uppercase text-sage font-heading mb-3 block">
                       {item.tag}
                     </span>
                     <h3
@@ -271,7 +271,7 @@ export default function ServiceDrawer({
                       {item.description}
                     </p>
                     <div
-                      className="mt-5 h-[2px] bg-warm-gold"
+                      className="mt-5 h-[2px] bg-sage"
                       style={{ width: "2rem" }}
                     />
                   </div>
@@ -290,7 +290,7 @@ export default function ServiceDrawer({
         <div className={`h-[2px] ${progressBg} rounded-full overflow-hidden`}>
           <div
             ref={progressRef}
-            className="h-full bg-warm-gold origin-left"
+            className="h-full bg-sage origin-left"
             style={{ transform: "scaleX(0)", willChange: "transform" }}
           />
         </div>

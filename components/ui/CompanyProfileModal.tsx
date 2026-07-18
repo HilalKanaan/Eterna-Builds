@@ -51,7 +51,7 @@ export default function CompanyProfileModal({ isOpen, onClose }: CompanyProfileM
       {/* Header */}
       <div className="flex items-center justify-between px-6 md:px-12 py-5 border-b border-stone-white/10 flex-shrink-0">
         <div>
-          <span className="text-xs tracking-[0.35em] uppercase text-warm-gold font-heading">
+          <span className="text-xs tracking-[0.35em] uppercase text-sage font-heading">
             Eterna Builds
           </span>
           <h2 className="font-heading font-bold text-light-grey text-xl md:text-2xl tracking-[0.1em] uppercase mt-0.5">
@@ -64,7 +64,7 @@ export default function CompanyProfileModal({ isOpen, onClose }: CompanyProfileM
           <a
             href="/company-profile.pdf"
             download
-            className="inline-flex items-center gap-2 bg-warm-gold hover:bg-stone-white text-deep-green font-heading font-semibold text-sm tracking-wider uppercase rounded-full px-5 py-2.5 transition-colors duration-300"
+            className="inline-flex items-center gap-2 bg-sage hover:bg-stone-white text-deep-green font-heading font-semibold text-sm tracking-wider uppercase rounded-full px-5 py-2.5 transition-colors duration-300"
             data-hover
           >
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="shrink-0">
@@ -117,7 +117,7 @@ export default function CompanyProfileModal({ isOpen, onClose }: CompanyProfileM
           <a
             href="/company-profile.pdf"
             download
-            className="inline-flex items-center gap-3 bg-warm-gold hover:bg-stone-white text-deep-green font-heading font-semibold text-base tracking-wider uppercase rounded-full px-8 py-4 transition-colors duration-300"
+            className="inline-flex items-center gap-3 bg-sage hover:bg-stone-white text-deep-green font-heading font-semibold text-base tracking-wider uppercase rounded-full px-8 py-4 transition-colors duration-300"
           >
             <svg width="18" height="18" viewBox="0 0 16 16" fill="none" className="shrink-0">
               <path d="M8 2v8m0 0L5 7m3 3l3-3M3 13h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

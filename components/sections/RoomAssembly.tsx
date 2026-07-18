@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { splitTextToChars } from "@/lib/splitText";
 
@@ -17,6 +17,28 @@ export default function RoomAssembly() {
   const progressRef = useRef<HTMLDivElement>(null);
   const progressNumberRef = useRef<HTMLSpanElement>(null);
   const overlayRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Fetch the full video only once the section approaches the viewport,
+  // so it never competes with above-the-fold content on initial load.
+  useEffect(() => {
+    const video = videoRef.current;
+    const section = sectionRef.current;
+    if (!video || !section) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          video.preload = "auto";
+          video.load();
+          io.disconnect();
+        }
+      },
+      { rootMargin: "200% 0px" }
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, []);
+
   useGSAP(
     () => {
       const section = sectionRef.current;
@@ -49,6 +71,29 @@ export default function RoomAssembly() {
         const video = videoRef.current;
         if (!video) return;
 
+        // Coalesced seeking: never issue a new seek while one is in flight —
+        // queueing seeks on every scroll tick is what makes scrubbing lag.
+        const FRAME = 1 / 24;
+        let pendingSeek = -1;
+
+        const seekTo = (t: number) => {
+          if (video.seeking) {
+            pendingSeek = t;
+            return;
+          }
+          pendingSeek = -1;
+          video.currentTime = t;
+        };
+
+        const onSeeked = () => {
+          if (pendingSeek >= 0) {
+            const t = pendingSeek;
+            pendingSeek = -1;
+            video.currentTime = t;
+          }
+        };
+        video.addEventListener("seeked", onSeeked);
+
         ScrollTrigger.create({
           trigger: section,
           start: "top top",
@@ -60,7 +105,14 @@ export default function RoomAssembly() {
             // Map scroll progress to video time (safe even before metadata loads)
             const duration = video.duration;
             if (duration && !isNaN(duration)) {
-              video.currentTime = self.progress * duration;
+              // Snap to frame boundaries and skip no-op seeks
+              const t = Math.min(
+                Math.round((self.progress * duration) / FRAME) * FRAME,
+                duration - FRAME
+              );
+              if (Math.abs(t - video.currentTime) > FRAME / 2) {
+                seekTo(t);
+              }
             }
 
             // Update progress bar
@@ -96,6 +148,10 @@ export default function RoomAssembly() {
             });
           },
         });
+
+        return () => {
+          video.removeEventListener("seeked", onSeeked);
+        };
       });
 
       mm.add("(max-width: 767px)", () => {
@@ -125,7 +181,7 @@ export default function RoomAssembly() {
     >
       {/* Section Header */}
       <div className="pt-24 pb-8 md:pb-0 md:absolute md:top-12 md:left-12 z-20">
-        <span className="text-xs tracking-[0.35em] uppercase text-warm-gold font-heading px-6 md:px-0">
+        <span className="text-xs tracking-[0.35em] uppercase text-sage font-heading px-6 md:px-0">
           Our Process
         </span>
         <div className="overflow-hidden">
@@ -146,10 +202,11 @@ export default function RoomAssembly() {
         <video
           ref={videoRef}
           className="absolute inset-0 w-full h-full object-cover"
-          src="/videos/room-assembly.mp4"
+          src="/videos/room-assembly-web.mp4"
+          poster="/videos/room-assembly-poster.webp"
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           onLoadedMetadata={() => ScrollTrigger.refresh()}
         />
 
@@ -168,7 +225,7 @@ export default function RoomAssembly() {
               className="absolute bottom-0 left-0"
               style={{ opacity: 0, willChange: "transform, opacity" }}
             >
-              <span className="text-xs tracking-[0.35em] uppercase text-warm-gold font-heading block mb-2">
+              <span className="text-xs tracking-[0.35em] uppercase text-sage font-heading block mb-2">
                 Step {i + 1} of {OVERLAY_PHASES.length}
               </span>
               <span
@@ -192,7 +249,7 @@ export default function RoomAssembly() {
           <div className="w-24 h-[2px] bg-light-grey/10 rounded-full overflow-hidden">
             <div
               ref={progressRef}
-              className="h-full bg-warm-gold origin-left"
+              className="h-full bg-sage origin-left"
               style={{ transform: "scaleX(0)", willChange: "transform" }}
             />
           </div>
